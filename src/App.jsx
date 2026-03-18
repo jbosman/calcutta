@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import siteLogo from './assets/copa-america-logo.jpg';
 import RegionBracket from './components/RegionBracket';
 import FinalFourCenter from './components/FinalFourCenter';
 import JsonEditor from './components/JsonEditor';
 import { useBracket } from './hooks/useBracket';
 import OwnerSummary from './components/OwnerSummary';
 import './styles/main.css';
+
 
 export default function App() {
   const { data, computed, updateScore, resetBracket, exportJSON, importJSON } = useBracket();
@@ -27,7 +29,7 @@ export default function App() {
       <div className="header-card">
         <div className="header-card-inner">
           <div className="header-left">
-            <img src="/site-logo.png" alt="Site Logo" className="site-logo" />
+            <img src={siteLogo} alt="Copa America Logo" className="site-logo" />
             <div className="ncaa-badge">COPA AMERICA</div>
             <div className="header-text">
               <h1 className="bracket-title">Calcutta Tournament Bracket</h1>

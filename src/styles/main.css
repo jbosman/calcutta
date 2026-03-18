@@ -84,6 +84,7 @@ html, body {
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
+  border-radius: 5px;
 }
 
 .ncaa-badge {
