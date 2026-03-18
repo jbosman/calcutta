@@ -1,0 +1,964 @@
+{
+  "tournament": {
+    "name": "Men's NCAA Tournament Bracket 2025-26",
+    "regions": {
+      "east": {
+        "label": "EAST",
+        "seeds": [
+          {
+            "seed": 1,
+            "team": "Duke",
+            "abbr": "DUKE",
+            "owner": "Alice Johnson",
+            "price": 50,
+            "espnId": 150
+          },
+          {
+            "seed": 16,
+            "team": "Siena",
+            "abbr": "SIE",
+            "owner": "Beth Adams",
+            "price": 5,
+            "espnId": 56
+          },
+          {
+            "seed": 8,
+            "team": "Ohio State",
+            "abbr": "OSU",
+            "owner": "Carl Baker",
+            "price": 20,
+            "espnId": 194
+          },
+          {
+            "seed": 9,
+            "team": "TCU",
+            "abbr": "TCU",
+            "owner": "Dana Hill",
+            "price": 18,
+            "espnId": 2628
+          },
+          {
+            "seed": 5,
+            "team": "St. John's",
+            "abbr": "SJU",
+            "owner": "Eric Stone",
+            "price": 30,
+            "espnId": 2599
+          },
+          {
+            "seed": 12,
+            "team": "Northern Iowa",
+            "abbr": "UNI",
+            "owner": "Faye Nguyen",
+            "price": 10,
+            "espnId": 2235
+          },
+          {
+            "seed": 4,
+            "team": "Kansas",
+            "abbr": "KAN",
+            "owner": "Greg Lane",
+            "price": 35,
+            "espnId": 2305
+          },
+          {
+            "seed": 13,
+            "team": "CA Baptist",
+            "abbr": "CBU",
+            "owner": "Holly Price",
+            "price": 8,
+            "espnId": 2872
+          },
+          {
+            "seed": 6,
+            "team": "Louisville",
+            "abbr": "LOU",
+            "owner": "Ivan Cruz",
+            "price": 25,
+            "espnId": 97
+          },
+          {
+            "seed": 11,
+            "team": "South Florida",
+            "abbr": "USF",
+            "owner": "Jana Webb",
+            "price": 12,
+            "espnId": 58
+          },
+          {
+            "seed": 3,
+            "team": "Michigan St",
+            "abbr": "MSU",
+            "owner": "Kevin Ross",
+            "price": 40,
+            "espnId": 127
+          },
+          {
+            "seed": 14,
+            "team": "N Dakota St",
+            "abbr": "NDSU",
+            "owner": "Lisa Tran",
+            "price": 6,
+            "espnId": 2449
+          },
+          {
+            "seed": 7,
+            "team": "UCLA",
+            "abbr": "UCLA",
+            "owner": "Matt Foster",
+            "price": 22,
+            "espnId": 26
+          },
+          {
+            "seed": 10,
+            "team": "UCF",
+            "abbr": "UCF",
+            "owner": "Nina Patel",
+            "price": 15,
+            "espnId": 2116
+          },
+          {
+            "seed": 2,
+            "team": "UConn",
+            "abbr": "CONN",
+            "owner": "Oscar Reed",
+            "price": 45,
+            "espnId": 41
+          },
+          {
+            "seed": 15,
+            "team": "Furman",
+            "abbr": "FUR",
+            "owner": "Alice Johnson",
+            "price": 5,
+            "espnId": 231
+          }
+        ]
+      },
+      "west": {
+        "label": "WEST",
+        "seeds": [
+          {
+            "seed": 1,
+            "team": "Auburn",
+            "abbr": "AUB",
+            "owner": "Beth Adams",
+            "price": 50,
+            "espnId": 2
+          },
+          {
+            "seed": 16,
+            "team": "Alabama St",
+            "abbr": "ALST",
+            "owner": "Carl Baker",
+            "price": 5,
+            "espnId": 2010
+          },
+          {
+            "seed": 8,
+            "team": "Louisville",
+            "abbr": "LOU",
+            "owner": "Dana Hill",
+            "price": 20,
+            "espnId": 97
+          },
+          {
+            "seed": 9,
+            "team": "Creighton",
+            "abbr": "CREI",
+            "owner": "Eric Stone",
+            "price": 18,
+            "espnId": 156
+          },
+          {
+            "seed": 5,
+            "team": "Michigan",
+            "abbr": "MICH",
+            "owner": "Faye Nguyen",
+            "price": 30,
+            "espnId": 130
+          },
+          {
+            "seed": 12,
+            "team": "UC San Diego",
+            "abbr": "UCSD",
+            "owner": "Greg Lane",
+            "price": 10,
+            "espnId": 2604
+          },
+          {
+            "seed": 4,
+            "team": "Texas A&M",
+            "abbr": "TAMU",
+            "owner": "Holly Price",
+            "price": 35,
+            "espnId": 245
+          },
+          {
+            "seed": 13,
+            "team": "Yale",
+            "abbr": "YALE",
+            "owner": "Ivan Cruz",
+            "price": 8,
+            "espnId": 43
+          },
+          {
+            "seed": 6,
+            "team": "Mississippi",
+            "abbr": "MISS",
+            "owner": "Jana Webb",
+            "price": 25,
+            "espnId": 145
+          },
+          {
+            "seed": 11,
+            "team": "VCU",
+            "abbr": "VCU",
+            "owner": "Kevin Ross",
+            "price": 12,
+            "espnId": 2670
+          },
+          {
+            "seed": 3,
+            "team": "Iowa State",
+            "abbr": "IAST",
+            "owner": "Lisa Tran",
+            "price": 40,
+            "espnId": 66
+          },
+          {
+            "seed": 14,
+            "team": "Lipscomb",
+            "abbr": "LIP",
+            "owner": "Matt Foster",
+            "price": 6,
+            "espnId": 288
+          },
+          {
+            "seed": 7,
+            "team": "Missouri",
+            "abbr": "MIZZ",
+            "owner": "Nina Patel",
+            "price": 22,
+            "espnId": 142
+          },
+          {
+            "seed": 10,
+            "team": "Drake",
+            "abbr": "DRK",
+            "owner": "Oscar Reed",
+            "price": 15,
+            "espnId": 2181
+          },
+          {
+            "seed": 2,
+            "team": "St. John's",
+            "abbr": "SJU",
+            "owner": "Alice Johnson",
+            "price": 45,
+            "espnId": 2599
+          },
+          {
+            "seed": 15,
+            "team": "Omaha",
+            "abbr": "OMA",
+            "owner": "Beth Adams",
+            "price": 5,
+            "espnId": 2453
+          }
+        ]
+      },
+      "south": {
+        "label": "SOUTH",
+        "seeds": [
+          {
+            "seed": 1,
+            "team": "Florida",
+            "abbr": "FLA",
+            "owner": "Carl Baker",
+            "price": 50,
+            "espnId": 57
+          },
+          {
+            "seed": 16,
+            "team": "Norfolk St",
+            "abbr": "NFST",
+            "owner": "Dana Hill",
+            "price": 5,
+            "espnId": 2450
+          },
+          {
+            "seed": 8,
+            "team": "UNC",
+            "abbr": "UNC",
+            "owner": "Eric Stone",
+            "price": 20,
+            "espnId": 153
+          },
+          {
+            "seed": 9,
+            "team": "Mississippi",
+            "abbr": "MISS",
+            "owner": "Faye Nguyen",
+            "price": 18,
+            "espnId": 145
+          },
+          {
+            "seed": 5,
+            "team": "Oregon",
+            "abbr": "ORE",
+            "owner": "Greg Lane",
+            "price": 30,
+            "espnId": 2483
+          },
+          {
+            "seed": 12,
+            "team": "Liberty",
+            "abbr": "LIB",
+            "owner": "Holly Price",
+            "price": 10,
+            "espnId": 2335
+          },
+          {
+            "seed": 4,
+            "team": "Maryland",
+            "abbr": "UMD",
+            "owner": "Ivan Cruz",
+            "price": 35,
+            "espnId": 120
+          },
+          {
+            "seed": 13,
+            "team": "Grand Canyon",
+            "abbr": "GCU",
+            "owner": "Jana Webb",
+            "price": 8,
+            "espnId": 2253
+          },
+          {
+            "seed": 6,
+            "team": "Clemson",
+            "abbr": "CLEM",
+            "owner": "Kevin Ross",
+            "price": 25,
+            "espnId": 228
+          },
+          {
+            "seed": 11,
+            "team": "McNeese",
+            "abbr": "MCN",
+            "owner": "Lisa Tran",
+            "price": 12,
+            "espnId": 2395
+          },
+          {
+            "seed": 3,
+            "team": "Illinois",
+            "abbr": "ILL",
+            "owner": "Matt Foster",
+            "price": 40,
+            "espnId": 356
+          },
+          {
+            "seed": 14,
+            "team": "Troy",
+            "abbr": "TROY",
+            "owner": "Nina Patel",
+            "price": 6,
+            "espnId": 2653
+          },
+          {
+            "seed": 7,
+            "team": "Xavier",
+            "abbr": "XAV",
+            "owner": "Oscar Reed",
+            "price": 22,
+            "espnId": 2753
+          },
+          {
+            "seed": 10,
+            "team": "Vanderbilt",
+            "abbr": "VAN",
+            "owner": "Alice Johnson",
+            "price": 15,
+            "espnId": 238
+          },
+          {
+            "seed": 2,
+            "team": "Tennessee",
+            "abbr": "TENN",
+            "owner": "Beth Adams",
+            "price": 45,
+            "espnId": 2633
+          },
+          {
+            "seed": 15,
+            "team": "Wofford",
+            "abbr": "WOF",
+            "owner": "Carl Baker",
+            "price": 5,
+            "espnId": 2747
+          }
+        ]
+      },
+      "midwest": {
+        "label": "MIDWEST",
+        "seeds": [
+          {
+            "seed": 1,
+            "team": "Houston",
+            "abbr": "HOU",
+            "owner": "Dana Hill",
+            "price": 50,
+            "espnId": 248
+          },
+          {
+            "seed": 16,
+            "team": "SIU Edwardsville",
+            "abbr": "SIUE",
+            "owner": "Eric Stone",
+            "price": 5,
+            "espnId": 2565
+          },
+          {
+            "seed": 8,
+            "team": "Gonzaga",
+            "abbr": "GONZ",
+            "owner": "Faye Nguyen",
+            "price": 20,
+            "espnId": 2250
+          },
+          {
+            "seed": 9,
+            "team": "Georgia",
+            "abbr": "UGA",
+            "owner": "Greg Lane",
+            "price": 18,
+            "espnId": 61
+          },
+          {
+            "seed": 5,
+            "team": "Purdue",
+            "abbr": "PUR",
+            "owner": "Holly Price",
+            "price": 30,
+            "espnId": 2509
+          },
+          {
+            "seed": 12,
+            "team": "Memphis",
+            "abbr": "MEM",
+            "owner": "Ivan Cruz",
+            "price": 10,
+            "espnId": 235
+          },
+          {
+            "seed": 4,
+            "team": "Arizona",
+            "abbr": "ARIZ",
+            "owner": "Jana Webb",
+            "price": 35,
+            "espnId": 12
+          },
+          {
+            "seed": 13,
+            "team": "Akron",
+            "abbr": "AKR",
+            "owner": "Kevin Ross",
+            "price": 8,
+            "espnId": 2006
+          },
+          {
+            "seed": 6,
+            "team": "BYU",
+            "abbr": "BYU",
+            "owner": "Lisa Tran",
+            "price": 25,
+            "espnId": 252
+          },
+          {
+            "seed": 11,
+            "team": "Butler",
+            "abbr": "BUT",
+            "owner": "Matt Foster",
+            "price": 12,
+            "espnId": 2086
+          },
+          {
+            "seed": 3,
+            "team": "Wisconsin",
+            "abbr": "WIS",
+            "owner": "Nina Patel",
+            "price": 40,
+            "espnId": 275
+          },
+          {
+            "seed": 14,
+            "team": "Montana",
+            "abbr": "MONT",
+            "owner": "Oscar Reed",
+            "price": 6,
+            "espnId": 149
+          },
+          {
+            "seed": 7,
+            "team": "Kansas State",
+            "abbr": "KAST",
+            "owner": "Alice Johnson",
+            "price": 22,
+            "espnId": 2306
+          },
+          {
+            "seed": 10,
+            "team": "Arkansas",
+            "abbr": "ARK",
+            "owner": "Beth Adams",
+            "price": 15,
+            "espnId": 8
+          },
+          {
+            "seed": 2,
+            "team": "Alabama",
+            "abbr": "ALA",
+            "owner": "Carl Baker",
+            "price": 45,
+            "espnId": 333
+          },
+          {
+            "seed": 15,
+            "team": "Robert Morris",
+            "abbr": "RMU",
+            "owner": "Dana Hill",
+            "price": 5,
+            "espnId": 2523
+          }
+        ]
+      }
+    },
+    "games": {
+      "east": {
+        "r1": [
+          {
+            "id": "e-r1-g1",
+            "top": 0,
+            "bottom": 1,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r1-g2",
+            "top": 2,
+            "bottom": 3,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r1-g3",
+            "top": 4,
+            "bottom": 5,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r1-g4",
+            "top": 6,
+            "bottom": 7,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r1-g5",
+            "top": 8,
+            "bottom": 9,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r1-g6",
+            "top": 10,
+            "bottom": 11,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r1-g7",
+            "top": 12,
+            "bottom": 13,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r1-g8",
+            "top": 14,
+            "bottom": 15,
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r2": [
+          {
+            "id": "e-r2-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r2-g2",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r2-g3",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r2-g4",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r3": [
+          {
+            "id": "e-r3-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "e-r3-g2",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r4": [
+          {
+            "id": "e-r4-g1",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ]
+      },
+      "west": {
+        "r1": [
+          {
+            "id": "w-r1-g1",
+            "top": 0,
+            "bottom": 1,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r1-g2",
+            "top": 2,
+            "bottom": 3,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r1-g3",
+            "top": 4,
+            "bottom": 5,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r1-g4",
+            "top": 6,
+            "bottom": 7,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r1-g5",
+            "top": 8,
+            "bottom": 9,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r1-g6",
+            "top": 10,
+            "bottom": 11,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r1-g7",
+            "top": 12,
+            "bottom": 13,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r1-g8",
+            "top": 14,
+            "bottom": 15,
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r2": [
+          {
+            "id": "w-r2-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r2-g2",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r2-g3",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r2-g4",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r3": [
+          {
+            "id": "w-r3-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "w-r3-g2",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r4": [
+          {
+            "id": "w-r4-g1",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ]
+      },
+      "south": {
+        "r1": [
+          {
+            "id": "s-r1-g1",
+            "top": 0,
+            "bottom": 1,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r1-g2",
+            "top": 2,
+            "bottom": 3,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r1-g3",
+            "top": 4,
+            "bottom": 5,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r1-g4",
+            "top": 6,
+            "bottom": 7,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r1-g5",
+            "top": 8,
+            "bottom": 9,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r1-g6",
+            "top": 10,
+            "bottom": 11,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r1-g7",
+            "top": 12,
+            "bottom": 13,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r1-g8",
+            "top": 14,
+            "bottom": 15,
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r2": [
+          {
+            "id": "s-r2-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r2-g2",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r2-g3",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r2-g4",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r3": [
+          {
+            "id": "s-r3-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "s-r3-g2",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r4": [
+          {
+            "id": "s-r4-g1",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ]
+      },
+      "midwest": {
+        "r1": [
+          {
+            "id": "m-r1-g1",
+            "top": 0,
+            "bottom": 1,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r1-g2",
+            "top": 2,
+            "bottom": 3,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r1-g3",
+            "top": 4,
+            "bottom": 5,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r1-g4",
+            "top": 6,
+            "bottom": 7,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r1-g5",
+            "top": 8,
+            "bottom": 9,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r1-g6",
+            "top": 10,
+            "bottom": 11,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r1-g7",
+            "top": 12,
+            "bottom": 13,
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r1-g8",
+            "top": 14,
+            "bottom": 15,
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r2": [
+          {
+            "id": "m-r2-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r2-g2",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r2-g3",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r2-g4",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r3": [
+          {
+            "id": "m-r3-g1",
+            "topScore": null,
+            "bottomScore": null
+          },
+          {
+            "id": "m-r3-g2",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ],
+        "r4": [
+          {
+            "id": "m-r4-g1",
+            "topScore": null,
+            "bottomScore": null
+          }
+        ]
+      },
+      "finalFour": [
+        {
+          "id": "ff-g1",
+          "topScore": null,
+          "bottomScore": null
+        },
+        {
+          "id": "ff-g2",
+          "topScore": null,
+          "bottomScore": null
+        }
+      ],
+      "championship": [
+        {
+          "id": "ch-g1",
+          "topScore": null,
+          "bottomScore": null
+        }
+      ]
+    }
+  }
+}
