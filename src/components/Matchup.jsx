@@ -70,6 +70,7 @@ function TeamSlot({ team, score, isWinner, isLoser, onScoreChange, roundIndex, t
             placeholder="—"
             min="0"
             max="200"
+            disabled
           />
         )}
       </div>
