@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import Matchup from './Matchup';
 import { cumulativePct, formatPct, dollarsEarned } from '../utils/payouts';
 
-// roundIndex: 0=R1, 1=R2, 2=S16, 3=E8
 const ROUND_LABELS = ['1st Round', '2nd Round', 'Sweet 16', 'Elite 8'];
 const ROUND_SHORT  = ['R1', 'R2', 'S16', 'E8'];
 const ROUND_DATES  = ['Mar 19-20', 'Mar 21-22', 'Mar 26-27', 'Mar 28-29'];
 
-export default function RegionBracket({ region, regionKey, computed, updateScore, flipped = false, totalPot = 0 }) {
+export default function RegionBracket({ region, regionKey, computed, updateScore, flipped = false, totalPot = 0, getGameStatus }) {
   const seeds = computed.regions[regionKey].seeds;
   const games = computed.games[regionKey];
   const rounds = ['r1', 'r2', 'r3', 'r4'];
@@ -21,6 +20,13 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
   function getBottomTeam(round, gameIdx) {
     if (round === 'r1') return seeds[games.r1[gameIdx].bottom];
     return games[round][gameIdx].bottomTeam || null;
+  }
+
+  function getStatus(round, gameIdx) {
+    if (!getGameStatus) return null;
+    const top = getTopTeam(round, gameIdx);
+    const bottom = getBottomTeam(round, gameIdx);
+    return getGameStatus(top?.espnId, bottom?.espnId);
   }
 
   function roundHeader(rIdx) {
@@ -39,7 +45,6 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
     );
   }
 
-  // Desktop: all 4 round columns side by side
   const roundColumns = rounds.map((round, rIdx) => {
     const roundGames = games[round];
     return (
@@ -57,6 +62,7 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
                 onBottomScoreChange={(val) => updateScore(regionKey, round, gIdx, 'bottom', val)}
                 roundIndex={rIdx}
                 totalPot={totalPot}
+                gameStatus={getStatus(round, gIdx)}
               />
             </div>
           ))}
@@ -65,7 +71,6 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
     );
   });
 
-  // Mobile: single round panel with tab switcher
   const mobileRoundKey = rounds[mobileRound];
   const mobileGames = games[mobileRoundKey];
 
@@ -75,12 +80,10 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
         <span className="region-name">{region}</span>
       </div>
 
-      {/* Desktop layout */}
       <div className="region-rounds desktop-rounds">
         {flipped ? [...roundColumns].reverse() : roundColumns}
       </div>
 
-      {/* Mobile layout */}
       <div className="mobile-rounds">
         <div className="mobile-round-tabs">
           {ROUND_SHORT.map((label, i) => {
@@ -101,7 +104,7 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
         <div className="mobile-round-panel">
           <div className="mobile-round-title">
             {ROUND_LABELS[mobileRound]}
-            <span className="mobile-round-pct"> &mdash; {formatPct(cumulativePct(mobileRound))} of pot = ${dollarsEarned(mobileRound, totalPot).toLocaleString()}</span>
+            <span className="mobile-round-pct"> — {formatPct(cumulativePct(mobileRound))} of pot = ${dollarsEarned(mobileRound, totalPot).toLocaleString()}</span>
           </div>
           <div className="mobile-games-grid">
             {mobileGames.map((game, gIdx) => (
@@ -115,6 +118,7 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
                   onBottomScoreChange={(val) => updateScore(regionKey, mobileRoundKey, gIdx, 'bottom', val)}
                   roundIndex={mobileRound}
                   totalPot={totalPot}
+                  gameStatus={getStatus(mobileRoundKey, gIdx)}
                 />
               </div>
             ))}

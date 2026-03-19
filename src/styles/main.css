@@ -1507,3 +1507,161 @@ html, body {
   .round-dot { width: 10px; height: 10px; }
 }
 
+
+/* =========================================
+   ESPN SYNC CONTROLS
+   ========================================= */
+.sync-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-sync {
+  background: var(--c-accent);
+  color: white;
+  border: 1px solid var(--c-accent);
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn-sync:hover:not(:disabled) { background: var(--c-accent-hover); }
+.btn-sync:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-sync-loading { opacity: 0.75; }
+
+.sync-icon {
+  font-size: 16px;
+  display: inline-block;
+  line-height: 1;
+}
+.sync-icon.spinning {
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.btn-auto {
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: var(--radius);
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-auto-on {
+  background: rgba(35, 134, 54, 0.15);
+  color: #56d364;
+  border-color: rgba(86, 211, 100, 0.4);
+}
+.btn-auto-on:hover { background: rgba(35, 134, 54, 0.25); }
+.btn-auto-off {
+  background: var(--c-surface-3);
+  color: var(--c-text-muted);
+  border-color: var(--c-border);
+}
+.btn-auto-off:hover { color: var(--c-text); }
+
+.sync-status {
+  font-size: 11px;
+  font-family: var(--font-head);
+}
+.sync-time { color: var(--c-text-muted); }
+.sync-error { color: #f85149; }
+
+/* =========================================
+   GAME STATUS BADGE (in matchup divider)
+   ========================================= */
+.matchup-divider {
+  height: 1px;
+  background: var(--c-border-light);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.game-status-badge {
+  position: absolute;
+  font-family: var(--font-head);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  line-height: 1.6;
+}
+
+.status-post {
+  background: var(--c-surface-2);
+  color: var(--c-text-muted);
+  border: 1px solid var(--c-border-light);
+}
+
+.status-in {
+  background: rgba(248, 81, 73, 0.15);
+  color: #f85149;
+  border: 1px solid rgba(248, 81, 73, 0.35);
+}
+
+.status-pre {
+  background: var(--c-surface-2);
+  color: var(--c-text-dim);
+  border: 1px solid var(--c-border-light);
+}
+
+.live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f85149;
+  flex-shrink: 0;
+  animation: livePulse 1.2s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* =========================================
+   SCORE DISPLAY (replaces score inputs)
+   ========================================= */
+.score-display {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--c-text);
+  min-width: 28px;
+  text-align: center;
+  display: inline-block;
+}
+.score-display.score-winner { color: #56d364; }
+.score-display.score-empty  { color: var(--c-text-dim); font-size: 13px; }
+
+/* Mobile sync layout */
+@media (max-width: 640px) {
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .sync-controls { gap: 6px; }
+  .btn-sync, .btn-auto { font-size: 12px; padding: 6px 10px; }
+}

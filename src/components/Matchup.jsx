@@ -21,7 +21,7 @@ function TeamLogo({ espnId, teamName }) {
   );
 }
 
-function TeamSlot({ team, score, isWinner, isLoser, onScoreChange, roundIndex, totalPot }) {
+function TeamSlot({ team, score, isWinner, isLoser, roundIndex, totalPot }) {
   const isEmpty = !team;
   const seedNum = team?.seed;
   const teamName = team?.team || 'TBD';
@@ -62,18 +62,23 @@ function TeamSlot({ team, score, isWinner, isLoser, onScoreChange, roundIndex, t
       </div>
       <div className="score-area">
         {!isEmpty && (
-          <input
-            type="number"
-            className={`score-input ${isWinner ? 'score-winner' : ''}`}
-            value={score === null || score === undefined ? '' : score}
-            onChange={(e) => onScoreChange(e.target.value)}
-            placeholder="—"
-            min="0"
-            max="200"
-            disabled
-          />
+          <span className={`score-display ${isWinner ? 'score-winner' : ''} ${score === null ? 'score-empty' : ''}`}>
+            {score !== null ? score : '—'}
+          </span>
         )}
       </div>
+    </div>
+  );
+}
+
+function GameStatusBadge({ status }) {
+  if (!status) return null;
+  const { state, display } = status;
+  if (!display) return null;
+  return (
+    <div className={`game-status-badge status-${state}`}>
+      {state === 'in' && <span className="live-dot" />}
+      {display}
     </div>
   );
 }
@@ -83,11 +88,10 @@ export default function Matchup({
   bottomTeam,
   topScore,
   bottomScore,
-  onTopScoreChange,
-  onBottomScoreChange,
   roundIndex,
   totalPot = 0,
   compact = false,
+  gameStatus = null,
 }) {
   const topWins = topScore !== null && bottomScore !== null && topScore > bottomScore;
   const bottomWins = topScore !== null && bottomScore !== null && bottomScore > topScore;
@@ -99,17 +103,17 @@ export default function Matchup({
         score={topScore}
         isWinner={topWins}
         isLoser={bottomWins}
-        onScoreChange={onTopScoreChange}
         roundIndex={roundIndex}
         totalPot={totalPot}
       />
-      <div className="matchup-divider" />
+      <div className="matchup-divider">
+        <GameStatusBadge status={gameStatus} />
+      </div>
       <TeamSlot
         team={bottomTeam}
         score={bottomScore}
         isWinner={bottomWins}
         isLoser={topWins}
-        onScoreChange={onBottomScoreChange}
         roundIndex={roundIndex}
         totalPot={totalPot}
       />

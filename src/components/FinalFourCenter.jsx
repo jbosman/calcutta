@@ -10,16 +10,26 @@ function fmtAmt(roundIndex, totalPot) {
   return amt % 1 === 0 ? amt.toLocaleString() : amt.toFixed(2);
 }
 
-export default function FinalFourCenter({ computed, updateScore, totalPot = 0 }) {
+export default function FinalFourCenter({ computed, updateScore, totalPot = 0, getGameStatus }) {
   const ff = computed.games.finalFour;
   const ch = computed.games.championship[0];
   const champion = ch.champion || null;
+
+  function ffStatus(idx) {
+    if (!getGameStatus) return null;
+    const game = ff[idx];
+    return getGameStatus(game.topTeam?.espnId, game.bottomTeam?.espnId);
+  }
+
+  function chStatus() {
+    if (!getGameStatus) return null;
+    return getGameStatus(ch.topTeam?.espnId, ch.bottomTeam?.espnId);
+  }
 
   return (
     <div className="final-four-center">
       <div className="ff-inner">
 
-        {/* Final Four Game 1: East vs West */}
         <div className="ff-section">
           <div className="ff-round-header">
             <div className="round-label">Final Four</div>
@@ -39,12 +49,12 @@ export default function FinalFourCenter({ computed, updateScore, totalPot = 0 })
               onBottomScoreChange={(val) => updateScore('finalFour', null, 0, 'bottom', val)}
               roundIndex={FF_ROUND_INDEX}
               totalPot={totalPot}
+              gameStatus={ffStatus(0)}
             />
           </div>
           <div className="ff-matchup-label">East vs West</div>
         </div>
 
-        {/* Championship */}
         <div className="championship-section">
           <div className="championship-header">
             <div className="trophy-icon">🏆</div>
@@ -65,6 +75,7 @@ export default function FinalFourCenter({ computed, updateScore, totalPot = 0 })
               onBottomScoreChange={(val) => updateScore('championship', null, 0, 'bottom', val)}
               roundIndex={CH_ROUND_INDEX}
               totalPot={totalPot}
+              gameStatus={chStatus()}
             />
           </div>
           {champion && (
@@ -76,7 +87,6 @@ export default function FinalFourCenter({ computed, updateScore, totalPot = 0 })
           )}
         </div>
 
-        {/* Final Four Game 2: South vs Midwest */}
         <div className="ff-section">
           <div className="ff-round-header">
             <div className="round-label">Final Four</div>
@@ -96,6 +106,7 @@ export default function FinalFourCenter({ computed, updateScore, totalPot = 0 })
               onBottomScoreChange={(val) => updateScore('finalFour', null, 1, 'bottom', val)}
               roundIndex={FF_ROUND_INDEX}
               totalPot={totalPot}
+              gameStatus={ffStatus(1)}
             />
           </div>
           <div className="ff-matchup-label">South vs Midwest</div>
