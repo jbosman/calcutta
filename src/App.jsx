@@ -64,9 +64,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Final Four + Championship — now at the top */}
-        {/* <FinalFourCenter computed={computed} updateScore={updateScore} totalPot={totalPot} /> */}
-
         {/* EAST */}
         <div className="bracket-row single-region">
           <RegionBracket
@@ -115,6 +112,9 @@ export default function App() {
           />
         </div>
       </div>
+
+      {/* Final Four + Championship — now at the top */}
+      <FinalFourCenter computed={computed} updateScore={updateScore} totalPot={totalPot} />
 
       {/* Owner Leaderboard */}
       <OwnerSummary computed={computed} totalPot={totalPot} />
