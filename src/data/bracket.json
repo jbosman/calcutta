@@ -17,7 +17,7 @@
             "seed": 16,
             "team": "Siena",
             "abbr": "SIE",
-            "espnId": 56,
+            "espnId": 2561,
             "owner": "Beth Adams",
             "price": 5
           },
@@ -49,7 +49,7 @@
             "seed": 12,
             "team": "Northern Iowa",
             "abbr": "UNI",
-            "espnId": 2235,
+            "espnId": 2460,
             "owner": "Faye Nguyen",
             "price": 10
           },
@@ -65,7 +65,7 @@
             "seed": 13,
             "team": "CA Baptist",
             "abbr": "CBU",
-            "espnId": 2872,
+            "espnId": 2856,
             "owner": "Holly Price",
             "price": 8
           },
@@ -150,7 +150,7 @@
             "seed": 16,
             "team": "LIU",
             "abbr": "LIU",
-            "espnId": 2350,
+            "espnId": 112358,
             "owner": "Carl Baker",
             "price": 5
           },
@@ -230,7 +230,7 @@
             "seed": 14,
             "team": "Kennesaw St",
             "abbr": "KSU",
-            "espnId": 2309,
+            "espnId": 338,
             "owner": "Matt Foster",
             "price": 6
           },
@@ -262,7 +262,7 @@
             "seed": 15,
             "team": "Queens",
             "abbr": "QUE",
-            "espnId": 2885,
+            "espnId": 2511,
             "owner": "Beth Adams",
             "price": 5
           }
@@ -281,9 +281,9 @@
           },
           {
             "seed": 16,
-            "team": "Lehigh",
-            "abbr": "LEH",
-            "espnId": 2332,
+            "team": "Prairie View A&M",
+            "abbr": "PVAM",
+            "espnId": 2504,
             "owner": "Dana Hill",
             "price": 5
           },
@@ -315,7 +315,7 @@
             "seed": 12,
             "team": "McNeese",
             "abbr": "MCN",
-            "espnId": 2395,
+            "espnId": 2377,
             "owner": "Holly Price",
             "price": 10
           },
@@ -416,7 +416,7 @@
             "seed": 16,
             "team": "Howard",
             "abbr": "HOW",
-            "espnId": 2429,
+            "espnId": 47,
             "owner": "Eric Stone",
             "price": 5
           },
@@ -478,9 +478,9 @@
           },
           {
             "seed": 11,
-            "team": "SMU",
-            "abbr": "SMU",
-            "espnId": 2567,
+            "team": "Miami (OH)",
+            "abbr": "MIOH",
+            "espnId": 193,
             "owner": "Matt Foster",
             "price": 12
           },
@@ -512,7 +512,7 @@
             "seed": 10,
             "team": "Santa Clara",
             "abbr": "SCU",
-            "espnId": 2608,
+            "espnId": 2541,
             "owner": "Beth Adams",
             "price": 15
           },
