@@ -161,7 +161,7 @@ export default function App() {
       </div>
 
       <FinalFourCenter computed={computed} updateScore={updateScore} totalPot={totalPot} getGameStatus={getGameStatus} />
-      <OwnerSummary computed={computed} totalPot={totalPot} />
+      <OwnerSummary computed={computed} totalPot={totalPot} getGameStatus={getGameStatus} />
 
       <JsonEditor
         isOpen={showJsonEditor}

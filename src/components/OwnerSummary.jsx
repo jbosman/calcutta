@@ -46,8 +46,8 @@ function RoundDots({ roundsWon, eliminated }) {
   );
 }
 
-export default function OwnerSummary({ computed, totalPot }) {
-  const summaries = buildOwnerSummaries(computed, totalPot);
+export default function OwnerSummary({ computed, totalPot, getGameStatus }) {
+  const summaries = buildOwnerSummaries(computed, totalPot, getGameStatus);
   const [expanded, setExpanded] = useState({});
 
   function toggle(owner) {
