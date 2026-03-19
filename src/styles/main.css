@@ -606,7 +606,7 @@ html, body {
 
 .team-name {
   font-family: var(--font-head);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--c-text);
   letter-spacing: 0.2px;
@@ -624,7 +624,7 @@ html, body {
 }
 
 .owner-name {
-  font-size: 9px;
+  font-size: 12px;
   color: var(--c-text-dim);
   white-space: nowrap;
   overflow: hidden;
