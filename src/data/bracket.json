@@ -549,8 +549,8 @@
             "id": "e-r1-g2",
             "top": 2,
             "bottom": 3,
-            "topScore": null,
-            "bottomScore": null
+            "topScore": 64,
+            "bottomScore": 66
           },
           {
             "id": "e-r1-g3",
