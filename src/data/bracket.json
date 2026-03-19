@@ -82,8 +82,8 @@
             "team": "South Florida",
             "abbr": "USF",
             "espnId": 58,
-            "owner": "Conway",
-            "price": 28
+            "owner": "Joe",
+            "price": 34
           },
           {
             "seed": 3,
@@ -114,8 +114,8 @@
             "team": "UCF",
             "abbr": "UCF",
             "espnId": 2116,
-            "owner": "Joe",
-            "price": 34
+            "owner": "Conway",
+            "price": 28
           },
           {
             "seed": 2,
