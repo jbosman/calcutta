@@ -548,7 +548,7 @@ html, body {
   background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow: visible;
   min-width: var(--matchup-width);
   transition: border-color 0.15s;
 }
@@ -989,8 +989,8 @@ html, body {
   .round-dates-bar { gap: 4px; padding: 8px 12px; font-size: 10px; }
   .round-dates-bar span { font-size: 10px; }
 
-  /* Region cards: allow inner scroll */
-  .single-region { overflow: hidden; }
+  /* Region cards: allow inner scroll but don't clip content */
+  .single-region { overflow: visible; }
   .region-bracket { padding: 10px 0 12px; }
   .region-label-bar { padding: 4px 12px 6px; }
 
@@ -1013,7 +1013,7 @@ html, body {
    MOBILE LAYOUT — round tabs per region
    ========================================= */
 @media (max-width: 640px) {
-  :root { --matchup-width: 100%; --team-height: 40px; }
+  :root { --matchup-width: 100%; --team-height: auto; }
 
   .app { padding: 10px 8px 28px; }
 
@@ -1025,8 +1025,8 @@ html, body {
   .header-actions { gap: 8px; }
   .btn { font-size: 13px; padding: 7px 12px; }
 
-  /* Region cards */
-  .single-region { border-radius: 8px; margin-bottom: 10px; }
+  /* Region cards — allow content to be visible */
+  .single-region { border-radius: 8px; margin-bottom: 10px; overflow: visible; }
   .region-bracket { padding: 10px 0 12px; }
   .region-label-bar { padding: 4px 12px 2px; }
   .region-name { font-size: 14px; letter-spacing: 1.5px; }
@@ -1093,24 +1093,76 @@ html, body {
     margin-bottom: 8px;
   }
 
+  /* Always single column on mobile — two columns are too narrow */
   .mobile-games-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  /* For R1 (8 games) use 2-col grid if wide enough */
-  @media (min-width: 400px) {
-    .mobile-games-grid { grid-template-columns: 1fr 1fr; }
+    gap: 8px;
   }
 
   .mobile-game-wrapper { width: 100%; }
   .mobile-game-wrapper .matchup { min-width: unset; width: 100%; }
 
-  /* Matchup full-width on mobile */
-  .matchup { min-width: unset; width: 100%; }
-  .team-name { font-size: 13px; }
-  .owner-name { display: block; font-size: 9px; }
+  /* Matchup card — allow overflow visible so status badge isn't clipped */
+  .matchup {
+    min-width: unset;
+    width: 100%;
+    overflow: visible;
+  }
+
+  /* Team slot — auto height so owner line never gets cut off */
+  .team-slot {
+    height: auto;
+    min-height: 44px;
+    padding: 6px 8px;
+    align-items: center;
+  }
+
+  /* Team info — make sure logo + text don't overflow */
+  .team-slot .team-info {
+    gap: 6px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .team-logo, .team-logo-fallback { width: 22px; height: 22px; flex-shrink: 0; }
+
+  /* Team name — allow wrapping on very small screens */
+  .team-name {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Owner name — allow wrapping so it's never clipped */
+  .owner-name {
+    display: block;
+    font-size: 9px;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.3;
+    margin-top: 2px;
+  }
+
+  /* Score display — fixed width, doesn't shrink */
+  .score-area { flex-shrink: 0; }
+  .score-display {
+    font-size: 15px;
+    min-width: 26px;
+    text-align: center;
+  }
+
+  /* Status badge — ensure it's visible above the divider line */
+  .matchup-divider {
+    overflow: visible;
+    z-index: 1;
+  }
+  .game-status-badge {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
 
   /* Final Four mobile */
   .final-four-center {
