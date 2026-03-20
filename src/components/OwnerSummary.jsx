@@ -46,6 +46,42 @@ function RoundDots({ roundsWon, eliminated }) {
   );
 }
 
+function GameStatusPill({ gameInfo, eliminated }) {
+  if (!gameInfo || eliminated) return null;
+  const { gameStatus, myScore, oppScore, opponent } = gameInfo;
+  if (!gameStatus) return null;
+
+  const { state, display } = gameStatus;
+  const oppName = opponent?.abbr || opponent?.team || '?';
+
+  if (state === 'post') {
+    const won = myScore > oppScore;
+    const lost = myScore < oppScore;
+    return (
+      <span className={`game-pill game-pill-post ${won ? 'pill-won' : lost ? 'pill-lost' : ''}`}>
+        {won ? '✓' : '✗'} {myScore}–{oppScore} vs {oppName} · Final
+      </span>
+    );
+  }
+
+  if (state === 'in') {
+    const leading = myScore !== null && oppScore !== null && myScore > oppScore;
+    const trailing = myScore !== null && oppScore !== null && myScore < oppScore;
+    return (
+      <span className={`game-pill game-pill-live ${leading ? 'pill-leading' : trailing ? 'pill-trailing' : ''}`}>
+        <span className="pill-live-dot" />
+        {myScore ?? '–'}–{oppScore ?? '–'} vs {oppName} · {display}
+      </span>
+    );
+  }
+
+  return (
+    <span className="game-pill game-pill-pre">
+      vs {oppName} · {display}
+    </span>
+  );
+}
+
 export default function OwnerSummary({ computed, totalPot, getGameStatus }) {
   const summaries = buildOwnerSummaries(computed, totalPot, getGameStatus);
   const [expanded, setExpanded] = useState({});
@@ -67,7 +103,6 @@ export default function OwnerSummary({ computed, totalPot, getGameStatus }) {
       </div>
 
       <div className="owner-table-wrap">
-        {/* Table header */}
         <div className="owner-table-head">
           <div className="ot-col ot-rank">#</div>
           <div className="ot-col ot-name">Owner</div>
@@ -84,7 +119,6 @@ export default function OwnerSummary({ computed, totalPot, getGameStatus }) {
 
           return (
             <div key={owner.owner} className={`owner-row-group ${rank === 0 && hasActivity ? 'owner-leader' : ''}`}>
-              {/* Summary row */}
               <div className="owner-row" onClick={() => toggle(owner.owner)}>
                 <div className="ot-col ot-rank">
                   {rank === 0 && hasActivity
@@ -126,7 +160,6 @@ export default function OwnerSummary({ computed, totalPot, getGameStatus }) {
                 </div>
               </div>
 
-              {/* Expanded team detail */}
               {isOpen && (
                 <div className="owner-detail">
                   <div className="detail-team-list">
@@ -150,6 +183,7 @@ export default function OwnerSummary({ computed, totalPot, getGameStatus }) {
                           <div className="detail-team-info">
                             <span className="detail-team-name">{t.team}</span>
                             <span className="detail-status">{t.status}</span>
+                            <GameStatusPill gameInfo={t.gameInfo} eliminated={t.eliminated} />
                           </div>
                         </div>
                         <div className="detail-team-right">
@@ -166,7 +200,6 @@ export default function OwnerSummary({ computed, totalPot, getGameStatus }) {
                     ))}
                   </div>
 
-                  {/* Owner totals footer */}
                   <div className="detail-totals">
                     <span className="detail-totals-label">Totals</span>
                     <div className="detail-totals-right">

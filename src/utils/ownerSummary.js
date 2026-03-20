@@ -15,18 +15,14 @@ export function buildOwnerSummaries(computed, totalPot, getGameStatus) {
   const lostIn = {};
 
   function isGameFinal(topTeam, bottomTeam) {
-    // If no getGameStatus function provided (e.g. no ESPN data yet),
-    // treat any completed score as final so manually entered scores still work
     if (!getGameStatus || !topTeam || !bottomTeam) return true;
     const status = getGameStatus(topTeam.espnId, bottomTeam.espnId);
-    // If ESPN has no status for this game yet, fall back to trusting the scores
     if (!status) return true;
     return status.state === 'post';
   }
 
   function recordResult(topTeam, bottomTeam, topScore, bottomScore, roundIndex) {
     if (topScore === null || bottomScore === null || !topTeam || !bottomTeam) return;
-    // Only count the result if the game is officially final
     if (!isGameFinal(topTeam, bottomTeam)) return;
     const topKey = teamKey(topTeam);
     const bottomKey = teamKey(bottomTeam);
@@ -42,28 +38,54 @@ export function buildOwnerSummaries(computed, totalPot, getGameStatus) {
   regions.forEach(region => {
     const seeds = computed.regions[region].seeds;
     const games = computed.games[region];
-
-    // R1: teams referenced by seed index
-    games.r1.forEach(g => {
-      recordResult(seeds[g.top], seeds[g.bottom], g.topScore, g.bottomScore, 0);
-    });
-
-    // R2–R4: teams referenced by topTeam/bottomTeam objects
+    games.r1.forEach(g => recordResult(seeds[g.top], seeds[g.bottom], g.topScore, g.bottomScore, 0));
     games.r2.forEach(g => recordResult(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, 1));
     games.r3.forEach(g => recordResult(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, 2));
     games.r4.forEach(g => recordResult(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, 3));
   });
-
-  // Final Four: roundIndex 4
-  computed.games.finalFour.forEach(g =>
-    recordResult(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, 4)
-  );
-
-  // Championship: roundIndex 5
+  computed.games.finalFour.forEach(g => recordResult(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, 4));
   const ch = computed.games.championship[0];
   recordResult(ch.topTeam, ch.bottomTeam, ch.topScore, ch.bottomScore, 5);
 
-  // Build per-owner summaries
+  // ---------------------------------------------------------------
+  // Build a lookup: teamKey → { opponent, gameStatus, topScore, bottomScore, isTop }
+  // Scans all game slots to find a team's active (non-final) or upcoming game.
+  // ---------------------------------------------------------------
+  const teamGameInfo = {}; // teamKey → game info
+
+  function indexGame(teamA, teamB, topScore, bottomScore, isTeamATop) {
+    if (!teamA || !teamB) return;
+    const status = getGameStatus ? getGameStatus(teamA.espnId, teamB.espnId) : null;
+    const kA = teamKey(teamA);
+    const kB = teamKey(teamB);
+    // Store for both teams
+    [{ k: kA, team: teamA, opp: teamB, isTop: isTeamATop },
+     { k: kB, team: teamB, opp: teamA, isTop: !isTeamATop }].forEach(({ k, opp, isTop }) => {
+      if (!teamGameInfo[k]) {
+        teamGameInfo[k] = {
+          opponent: opp,
+          gameStatus: status,
+          topScore: isTop ? topScore : bottomScore,
+          bottomScore: isTop ? bottomScore : topScore,
+          myScore: isTop ? topScore : bottomScore,
+          oppScore: isTop ? bottomScore : topScore,
+        };
+      }
+    });
+  }
+
+  regions.forEach(region => {
+    const seeds = computed.regions[region].seeds;
+    const games = computed.games[region];
+    games.r1.forEach(g => indexGame(seeds[g.top], seeds[g.bottom], g.topScore, g.bottomScore, true));
+    games.r2.forEach(g => indexGame(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, true));
+    games.r3.forEach(g => indexGame(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, true));
+    games.r4.forEach(g => indexGame(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, true));
+  });
+  computed.games.finalFour.forEach(g => indexGame(g.topTeam, g.bottomTeam, g.topScore, g.bottomScore, true));
+  indexGame(ch.topTeam, ch.bottomTeam, ch.topScore, ch.bottomScore, true);
+  // ---------------------------------------------------------------
+
   const ownerMap = {};
 
   regions.forEach(region => {
@@ -74,6 +96,7 @@ export function buildOwnerSummaries(computed, totalPot, getGameStatus) {
       const eliminated = lostIn[k] !== undefined;
       const winnings = rounds > 0 ? dollarsEarned(rounds - 1, totalPot) : 0;
       const net = winnings - (seed.price || 0);
+      const gameInfo = teamGameInfo[k] || null;
 
       if (!ownerMap[owner]) {
         ownerMap[owner] = { owner, teams: [], totalPaid: 0, totalWinnings: 0, totalNet: 0 };
@@ -95,6 +118,7 @@ export function buildOwnerSummaries(computed, totalPot, getGameStatus) {
           : rounds > 0
             ? `Won ${ROUND_NAMES[rounds - 1]}`
             : 'Not yet played',
+        gameInfo, // { opponent, gameStatus, myScore, oppScore }
       });
 
       ownerMap[owner].totalPaid += seed.price || 0;
