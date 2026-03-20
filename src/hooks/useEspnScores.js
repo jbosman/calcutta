@@ -1,9 +1,9 @@
 import { useState, useCallback, useRef } from 'react';
 
-// ESPN scoreboard API for NCAA men's basketball tournament
-// groups=100 filters to NCAA tournament games only
+// ESPN scoreboard API — groups=50 returns all D1 games including NCAA tournament
+// We fetch a wide date range to catch all tournament rounds in one call
 const ESPN_SCOREBOARD_URL =
-  'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=100&limit=200';
+  'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=200&dates=20260317-20260407';
 
 // Normalise a game status from ESPN into something we can display
 // Returns { state: 'pre'|'in'|'post', display: string }

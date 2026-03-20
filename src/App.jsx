@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import siteLogo from './assets/copa-america-logo.jpg';
 import RegionBracket from './components/RegionBracket';
 import FinalFourCenter from './components/FinalFourCenter';
 import JsonEditor from './components/JsonEditor';
 import { useBracket } from './hooks/useBracket';
-import { useEspnScores } from './hooks/useEspnScores';
+import { useEspnScores, matchEspnScoresToBracket } from './hooks/useEspnScores';
 import OwnerSummary from './components/OwnerSummary';
 import './styles/main.css';
 
@@ -25,49 +25,56 @@ export default function App() {
   );
   const totalTeams = Object.values(data.regions).reduce((n, r) => n + r.seeds.length, 0);
 
+  // Keep refs to the latest computed and applyEspnScores so syncScores
+  // never captures a stale closure — important for the auto-refresh interval
+  const computedRef = useRef(computed);
+  const applyRef = useRef(applyEspnScores);
+  useEffect(() => { computedRef.current = computed; }, [computed]);
+  useEffect(() => { applyRef.current = applyEspnScores; }, [applyEspnScores]);
+
   // Sync scores from ESPN and apply to bracket
   const syncScores = useCallback(async () => {
     const map = await fetchScores();
     if (!map) return;
 
-    // Build enriched bracket with espnIds for advanced-round teams from computed
-    const enriched = JSON.parse(JSON.stringify(data));
+    const currentComputed = computedRef.current;
+
+    // Build enriched bracket using the current computed state (which has games)
+    // Annotate R2+ slots with the espnIds of teams that have already advanced
+    const enriched = JSON.parse(JSON.stringify(currentComputed));
     const regions = ['east', 'west', 'south', 'midwest'];
     regions.forEach((region) => {
       ['r2', 'r3', 'r4'].forEach((round) => {
-        computed.games[region][round].forEach((game, idx) => {
+        currentComputed.games[region][round].forEach((game, idx) => {
           enriched.games[region][round][idx].topTeamEspnId = game.topTeam?.espnId ?? null;
           enriched.games[region][round][idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
         });
       });
     });
-    computed.games.finalFour.forEach((game, idx) => {
+    currentComputed.games.finalFour.forEach((game, idx) => {
       enriched.games.finalFour[idx].topTeamEspnId = game.topTeam?.espnId ?? null;
       enriched.games.finalFour[idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
     });
-    const ch = computed.games.championship[0];
+    const ch = currentComputed.games.championship[0];
     enriched.games.championship[0].topTeamEspnId = ch.topTeam?.espnId ?? null;
     enriched.games.championship[0].bottomTeamEspnId = ch.bottomTeam?.espnId ?? null;
 
-    // Import from useEspnScores matchEspnScoresToBracket
-    const { matchEspnScoresToBracket } = await import('./hooks/useEspnScores.js');
     const updates = matchEspnScoresToBracket(enriched, map);
 
-    // Build status map keyed by game id using espnId pair
     const newStatuses = {};
     Object.entries(map).forEach(([key, val]) => {
       newStatuses[key] = val.status;
     });
 
-    applyEspnScores(updates, newStatuses);
-  }, [fetchScores, data, computed, applyEspnScores]);
+    applyRef.current(updates, newStatuses);
+  }, [fetchScores]); // fetchScores is stable; computed/apply accessed via refs
 
-  // Initial fetch on mount
+  // Initial fetch on mount — runs exactly once
   useEffect(() => {
     syncScores();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Auto-refresh interval
+  // Auto-refresh interval — syncScores is stable so this never restarts unnecessarily
   useEffect(() => {
     if (!autoRefresh) return;
     const id = setInterval(syncScores, AUTO_REFRESH_MS);

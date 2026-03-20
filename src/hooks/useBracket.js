@@ -5,32 +5,86 @@ function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-// Returns the espn game key (sorted id pair) for two team objects
+// Build a fresh blank games structure from the regions in bracket.json.
+// R1 matchups follow the standard NCAA bracket seeding pattern:
+// (1v16, 8v9, 5v12, 4v13, 6v11, 3v14, 7v10, 2v15) using seed array indices.
+function buildInitialGames() {
+  const regionKeys = ['east', 'west', 'south', 'midwest'];
+  const games = {};
+
+  regionKeys.forEach((region) => {
+    const p = region[0]; // e, w, s, m
+    games[region] = {
+      // R1: 8 games — top/bottom are indices into the seeds array
+      // Seeds array order: [1,16, 8,9, 5,12, 4,13, 6,11, 3,14, 7,10, 2,15]
+      r1: [
+        { id: `${p}-r1-g1`, top: 0,  bottom: 1,  topScore: null, bottomScore: null },
+        { id: `${p}-r1-g2`, top: 2,  bottom: 3,  topScore: null, bottomScore: null },
+        { id: `${p}-r1-g3`, top: 4,  bottom: 5,  topScore: null, bottomScore: null },
+        { id: `${p}-r1-g4`, top: 6,  bottom: 7,  topScore: null, bottomScore: null },
+        { id: `${p}-r1-g5`, top: 8,  bottom: 9,  topScore: null, bottomScore: null },
+        { id: `${p}-r1-g6`, top: 10, bottom: 11, topScore: null, bottomScore: null },
+        { id: `${p}-r1-g7`, top: 12, bottom: 13, topScore: null, bottomScore: null },
+        { id: `${p}-r1-g8`, top: 14, bottom: 15, topScore: null, bottomScore: null },
+      ],
+      r2: [
+        { id: `${p}-r2-g1`, topScore: null, bottomScore: null },
+        { id: `${p}-r2-g2`, topScore: null, bottomScore: null },
+        { id: `${p}-r2-g3`, topScore: null, bottomScore: null },
+        { id: `${p}-r2-g4`, topScore: null, bottomScore: null },
+      ],
+      r3: [
+        { id: `${p}-r3-g1`, topScore: null, bottomScore: null },
+        { id: `${p}-r3-g2`, topScore: null, bottomScore: null },
+      ],
+      r4: [
+        { id: `${p}-r4-g1`, topScore: null, bottomScore: null },
+      ],
+    };
+  });
+
+  games.finalFour = [
+    { id: 'ff-g1', topScore: null, bottomScore: null },
+    { id: 'ff-g2', topScore: null, bottomScore: null },
+  ];
+
+  games.championship = [
+    { id: 'ch-g1', topScore: null, bottomScore: null },
+  ];
+
+  return games;
+}
+
+// Merge regions from JSON with a fresh games structure
+function buildInitialTournament() {
+  return {
+    ...deepClone(initialData.tournament),
+    games: buildInitialGames(),
+  };
+}
+
+// Returns the ESPN game key (sorted id pair) for two team objects
 function espnKey(teamA, teamB) {
   if (!teamA?.espnId || !teamB?.espnId) return null;
   return [String(teamA.espnId), String(teamB.espnId)].sort().join('-');
 }
 
 // Returns winner index (0=top, 1=bottom) only if the game is final.
-// statuses: map of espnKey -> { state, display }
-// If no status exists for a game (manual entry), fall back to trusting scores.
+// If no ESPN status exists for a game, fall back to trusting the scores (manual entry).
 function getFinalWinner(topTeam, bottomTeam, topScore, bottomScore, statuses) {
   if (topScore === null || bottomScore === null) return null;
   if (topScore === bottomScore) return null;
 
-  // Check if ESPN reports this game as finished
   const key = espnKey(topTeam, bottomTeam);
   if (key && statuses && statuses[key]) {
-    if (statuses[key].state !== 'post') return null; // live or pre — not final yet
+    if (statuses[key].state !== 'post') return null;
   }
-  // No ESPN status (manual entry) — trust the scores
   return topScore > bottomScore ? 0 : 1;
 }
 
 export function useBracket() {
-  const [data, setData] = useState(() => deepClone(initialData.tournament));
+  const [data, setData] = useState(() => buildInitialTournament());
   const [gameStatuses, setGameStatuses] = useState({});
-  // Keep a ref so computeBracket closure always sees latest statuses
   const statusesRef = useRef({});
 
   const computeBracket = useCallback((tournament, statuses) => {
@@ -94,7 +148,6 @@ export function useBracket() {
     chGame.topTeam = wff1 !== null ? (wff1 === 0 ? ffGames[0].topTeam : ffGames[0].bottomTeam) : null;
     chGame.bottomTeam = wff2 !== null ? (wff2 === 0 ? ffGames[1].topTeam : ffGames[1].bottomTeam) : null;
 
-    // Championship winner
     const wch = getFinalWinner(chGame.topTeam, chGame.bottomTeam, chGame.topScore, chGame.bottomScore, st);
     chGame.champion = wch !== null ? (wch === 0 ? chGame.topTeam : chGame.bottomTeam) : null;
 
@@ -102,7 +155,7 @@ export function useBracket() {
   }, []);
 
   const [computed, setComputed] = useState(() =>
-    computeBracket(deepClone(initialData.tournament), {})
+    computeBracket(buildInitialTournament(), {})
   );
 
   const updateScore = useCallback((region, round, gameIdx, side, score) => {
@@ -121,9 +174,7 @@ export function useBracket() {
     });
   }, [computeBracket]);
 
-  // Apply a batch of score updates from ESPN API
   const applyEspnScores = useCallback((scoreUpdates, newStatuses) => {
-    // Update the ref immediately so computeBracket sees the new statuses
     if (newStatuses) statusesRef.current = newStatuses;
 
     setData((prev) => {
@@ -148,7 +199,7 @@ export function useBracket() {
   }, [computeBracket]);
 
   const resetBracket = useCallback(() => {
-    const fresh = deepClone(initialData.tournament);
+    const fresh = buildInitialTournament();
     statusesRef.current = {};
     setData(fresh);
     setComputed(computeBracket(fresh, {}));
@@ -156,13 +207,19 @@ export function useBracket() {
   }, [computeBracket]);
 
   const exportJSON = useCallback(() => {
-    return JSON.stringify({ tournament: data }, null, 2);
+    // Export only the team/owner data — no game scores
+    return JSON.stringify({ tournament: { name: data.name, regions: data.regions } }, null, 2);
   }, [data]);
 
   const importJSON = useCallback((jsonString) => {
     try {
       const parsed = JSON.parse(jsonString);
-      const tournament = parsed.tournament || parsed;
+      const incoming = parsed.tournament || parsed;
+      // Merge imported regions with fresh games so scores don't carry over
+      const tournament = {
+        ...incoming,
+        games: buildInitialGames(),
+      };
       setData(tournament);
       setComputed(computeBracket(tournament, statusesRef.current));
       return true;
