@@ -6,6 +6,7 @@ import JsonEditor from './components/JsonEditor';
 import { useBracket } from './hooks/useBracket';
 import { useEspnScores, matchEspnScoresToBracket } from './hooks/useEspnScores';
 import OwnerSummary from './components/OwnerSummary';
+import TotalPotBanner from './components/TotalPotBanner';
 import './styles/main.css';
 
 const AUTO_REFRESH_MS = 60000; // 60 seconds
@@ -139,19 +140,16 @@ export default function App() {
         </div>
       </div>
 
+      <TotalPotBanner
+        totalPot={totalPot}
+        totalTeams={totalTeams}
+        uniqueOwnersCount={uniqueOwners.size}
+      />
+
+      <OwnerSummary computed={computed} totalPot={totalPot} getGameStatus={getGameStatus} />
+
       {/* Bracket Layout */}
       <div className="bracket-wrapper">
-
-        <div className="total-pot-banner">
-          <div className="pot-left">
-            <span className="pot-icon">💰</span>
-            <span className="pot-label">Total Pot</span>
-          </div>
-          <div className="pot-amount">${totalPot.toLocaleString()}</div>
-          <div className="pot-right">
-            <span className="pot-subtitle">{totalTeams} teams · {uniqueOwners.size} owners</span>
-          </div>
-        </div>
 
         <div className="bracket-row single-region">
           <RegionBracket region="EAST" regionKey="east" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} />
@@ -168,7 +166,6 @@ export default function App() {
       </div>
 
       <FinalFourCenter computed={computed} updateScore={updateScore} totalPot={totalPot} getGameStatus={getGameStatus} />
-      <OwnerSummary computed={computed} totalPot={totalPot} getGameStatus={getGameStatus} />
 
       <JsonEditor
         isOpen={showJsonEditor}
