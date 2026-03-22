@@ -1274,11 +1274,12 @@ html, body {
    OWNER SUMMARY LEADERBOARD
    ========================================= */
 .owner-summary-section {
-  margin-top: 24px;
+  margin-top: 0;
+  margin-bottom: 14px;
   background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .owner-summary-header {
