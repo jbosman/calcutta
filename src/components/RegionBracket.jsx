@@ -7,40 +7,40 @@ const ROUND_SHORT  = ['R1', 'R2', 'S16', 'E8'];
 const ROUND_DATES  = ['Mar 19-20', 'Mar 21-22', 'Mar 26-27', 'Mar 28-29'];
 const CONN_W = 20;
 
-// Mobile constants — must match CSS variables set in .mobile-split-view
-const MOB_CARD_H = 78;  // 2 * 36px slots + 1px divider + border ≈ 78
-const MOB_GAP    = 4;
-
-function getMidpointsRelativeTo(listEl, ancestorEl) {
+// Returns Y position of the .matchup-divider inside each child of listEl,
+// relative to ancestorEl's top. Falls back to child midpoint if no divider found.
+function getMidpoints(listEl, ancestorEl) {
   if (!listEl || !ancestorEl) return [];
-  const baseTop = ancestorEl.getBoundingClientRect().top;
-  return Array.from(listEl.children).map(child => {
-    const r = child.getBoundingClientRect();
-    return r.top - baseTop + r.height / 2;
+  const base = ancestorEl.getBoundingClientRect().top;
+  return Array.from(listEl.children).map(c => {
+    const divider = c.querySelector('.matchup-divider');
+    const target  = divider ?? c;
+    const r = target.getBoundingClientRect();
+    return r.top - base + r.height / 2;
   });
 }
 
-function ConnectorLines({ leftMids, rightMids, height, flipped }) {
-  if (!leftMids.length || !rightMids.length || !height) return null;
+// Draws bracket connector SVG. Position:absolute so it never affects layout.
+function ConnectorSVG({ leftMids, targetMids }) {
+  if (!leftMids.length || !targetMids.length) return null;
   const paths = [];
-  const xL = flipped ? CONN_W : 0;
-  const xR = flipped ? 0 : CONN_W;
   const xM = CONN_W / 2;
 
-  for (let r = 0; r < rightMids.length; r++) {
+  for (let r = 0; r < targetMids.length; r++) {
     const ly1 = leftMids[r * 2];
     const ly2 = leftMids[r * 2 + 1];
-    const ry  = rightMids[r];
-    if (ly1 === undefined || isNaN(ly1) || ly2 === undefined || isNaN(ly2)) continue;
-    paths.push(`M ${xL} ${ly1} H ${xM}`);
-    paths.push(`M ${xL} ${ly2} H ${xM}`);
+    const ry  = targetMids[r];
+    if (ly1 == null || ly2 == null || isNaN(ly1) || isNaN(ly2)) continue;
+    paths.push(`M 0 ${ly1} H ${xM}`);
+    paths.push(`M 0 ${ly2} H ${xM}`);
     paths.push(`M ${xM} ${ly1} V ${ly2}`);
-    paths.push(`M ${xM} ${ry}  H ${xR}`);
+    paths.push(`M ${xM} ${ry} H ${CONN_W}`);
   }
 
+  const maxY = Math.max(...leftMids, ...targetMids) + 4;
   return (
-    <svg width={CONN_W} height={height}
-      style={{ flexShrink: 0, display: 'block', overflow: 'visible', alignSelf: 'flex-start' }}>
+    <svg width={CONN_W} height={maxY}
+      style={{ position: 'absolute', top: 0, left: 0, overflow: 'visible', pointerEvents: 'none' }}>
       {paths.map((d, i) => (
         <path key={i} d={d} stroke="var(--c-border)" strokeWidth="1.5"
               fill="none" strokeLinecap="round" />
@@ -49,73 +49,41 @@ function ConnectorLines({ leftMids, rightMids, height, flipped }) {
   );
 }
 
-// Desktop connector: measures actual DOM positions relative to the row container
-function MeasuredConnector({ rowRef, leftListRef, rightListRef, flipped }) {
-  const [state, setState] = useState({ leftMids: [], rightMids: [], height: 0 });
+// Manages a connector + its right column.
+// Measures left column card midpoints, computes target Ys for right cards,
+// exposes those targets so right cards can be absolutely positioned to match.
+function useBracketMeasure(rowRef, leftListRef) {
+  const [leftMids, setLeftMids] = useState([]);
 
   const measure = useCallback(() => {
     const rowEl  = rowRef.current;
     const leftEl = leftListRef.current;
-    const rightEl = rightListRef.current;
-    if (!rowEl || !leftEl || !rightEl) return;
-    const leftMids  = getMidpointsRelativeTo(leftEl, rowEl);
-    const rightMids = getMidpointsRelativeTo(rightEl, rowEl);
-    setState({ leftMids, rightMids, height: rowEl.getBoundingClientRect().height });
-  }, [rowRef, leftListRef, rightListRef]);
+    if (!rowEl || !leftEl) return;
+    const mids = getMidpoints(leftEl, rowEl);
+    setLeftMids(prev => {
+      const same = prev.length === mids.length &&
+        prev.every((v, i) => Math.abs(v - mids[i]) < 0.5);
+      return same ? prev : mids;
+    });
+  }, [rowRef, leftListRef]);
 
   useEffect(() => {
     measure();
     const ro = new ResizeObserver(measure);
     if (rowRef.current)    ro.observe(rowRef.current);
-    if (leftListRef.current)  ro.observe(leftListRef.current);
-    if (rightListRef.current) ro.observe(rightListRef.current);
+    if (leftListRef.current) ro.observe(leftListRef.current);
     return () => ro.disconnect();
   }, [measure]);
 
-  return (
-    <div style={{ flexShrink: 0, width: CONN_W, alignSelf: 'flex-start' }}>
-      <ConnectorLines {...state} flipped={flipped} />
-    </div>
-  );
-}
-
-// Mobile connector: uses fixed card dimensions offset by the header height.
-// headerOffset = the pixel height of .mobile-split-header (measured by caller).
-function MobileConnector({ leftN, rightN, headerOffset = 0 }) {
-  const cardH = MOB_CARD_H;
-  const gap   = MOB_GAP;
-  const slotH = cardH + gap;
-
-  const paths = [];
-  const xL = 0, xM = CONN_W / 2, xR = CONN_W;
-
-  for (let r = 0; r < rightN; r++) {
-    const l1 = r * 2;
-    const l2 = r * 2 + 1;
-    // Card midpoints relative to the top of the column (which includes the header)
-    const ly1 = headerOffset + l1 * slotH + cardH / 2;
-    const ly2 = headerOffset + l2 * slotH + cardH / 2;
-    const ry  = (ly1 + ly2) / 2;
-
-    paths.push(`M ${xL} ${ly1} H ${xM}`);
-    paths.push(`M ${xL} ${ly2} H ${xM}`);
-    paths.push(`M ${xM} ${ly1} V ${ly2}`);
-    paths.push(`M ${xM} ${ry}  H ${xR}`);
+  // Compute where each right card's centre should be: midpoint between its two feeders
+  const targetMids = [];
+  for (let r = 0; r < leftMids.length / 2; r++) {
+    const ly1 = leftMids[r * 2];
+    const ly2 = leftMids[r * 2 + 1];
+    if (ly1 != null && ly2 != null) targetMids.push((ly1 + ly2) / 2);
   }
 
-  const totalH = headerOffset + leftN * cardH + (leftN - 1) * gap;
-
-  return (
-    <div style={{ flexShrink: 0, width: CONN_W }}>
-      <svg width={CONN_W} height={totalH}
-           style={{ display: 'block', overflow: 'visible' }}>
-        {paths.map((d, i) => (
-          <path key={i} d={d} stroke="var(--c-border)" strokeWidth="1.5"
-                fill="none" strokeLinecap="round" />
-        ))}
-      </svg>
-    </div>
-  );
+  return { leftMids, targetMids };
 }
 
 export default function RegionBracket({
@@ -125,13 +93,25 @@ export default function RegionBracket({
   const seeds  = computed.regions[regionKey].seeds;
   const games  = computed.games[regionKey];
   const rounds = ['r1', 'r2', 'r3', 'r4'];
-  const roundCounts = [8, 4, 2, 1];
 
   const [mobileRound, setMobileRound] = useState(initialRound);
   const [userSelected, setUserSelected] = useState(false);
 
-  const listRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
-  const rowRef   = useRef(null);
+  const rowRef    = useRef(null);
+  const listRefs  = [useRef(null), useRef(null), useRef(null), useRef(null)];
+
+  const mobileRowRef   = useRef(null);
+  const mobileLeftRef  = useRef(null);
+  const mobileRightRef = useRef(null);
+
+  // Measure connector data for each inter-round gap (desktop)
+  const conn0 = useBracketMeasure(rowRef, listRefs[0]);
+  const conn1 = useBracketMeasure(rowRef, listRefs[1]);
+  const conn2 = useBracketMeasure(rowRef, listRefs[2]);
+  const connectors = [conn0, conn1, conn2];
+
+  // Mobile connector
+  const mobileConn = useBracketMeasure(mobileRowRef, mobileLeftRef);
 
   useEffect(() => {
     if (!userSelected) setMobileRound(initialRound);
@@ -166,15 +146,40 @@ export default function RegionBracket({
     );
   }
 
-  function roundColumn(rIdx, listRef) {
-    const round = rounds[rIdx];
-    const roundGames = games[round];
+  // Render a game list. If targetMids provided, cards are absolutely positioned
+  // so each one's centre aligns with the corresponding target Y (relative to rowRef).
+  function gameList(round, rIdx, listRef, targetMids, rowRefForOffset, extraCardClass, onCardClick) {
+    const positioned = targetMids && targetMids.length > 0 && rowRefForOffset;
     return (
-      <div key={round} className="round-column">
-        {roundHeader(rIdx)}
-        <div className="round-game-list" ref={listRef}>
-          {roundGames.map((game, gIdx) => (
-            <div key={game.id} className="round-game-item">
+      <div
+        className="round-game-list"
+        ref={listRef}
+        style={positioned ? { position: 'relative' } : undefined}
+      >
+        {games[round].map((game, gIdx) => {
+          let cardStyle;
+          if (positioned && targetMids[gIdx] != null) {
+            // targetMids[gIdx] is relative to rowRef top.
+            // We need it relative to this list's top.
+            const rowEl  = rowRefForOffset.current;
+            const listEl = listRef.current;
+            if (rowEl && listEl) {
+              const listTop = listEl.getBoundingClientRect().top - rowEl.getBoundingClientRect().top;
+              const cardH = listEl.children[gIdx]?.getBoundingClientRect().height || 80;
+              cardStyle = {
+                position: 'absolute',
+                left: 0, right: 0,
+                top: targetMids[gIdx] - listTop - cardH / 2,
+              };
+            }
+          }
+          return (
+            <div
+              key={game.id}
+              className={['round-game-item', extraCardClass].filter(Boolean).join(' ')}
+              style={cardStyle}
+              onClick={onCardClick}
+            >
               <Matchup
                 topTeam={getTopTeam(round, gIdx)}
                 bottomTeam={getBottomTeam(round, gIdx)}
@@ -187,52 +192,43 @@ export default function RegionBracket({
                 gameStatus={getStatus(round, gIdx)}
               />
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     );
   }
 
-  // Desktop items: columns interleaved with measured connectors
+  // Desktop round column. R1 (rIdx=0) is the anchor — no positioning needed.
+  // Later rounds use targetMids from the previous round's connector measurement.
+  function roundColumn(rIdx, listRef, targetMids) {
+    const round = rounds[rIdx];
+    return (
+      <div key={round} className="round-column">
+        {roundHeader(rIdx)}
+        {gameList(round, rIdx, listRef, rIdx > 0 ? targetMids : null, rowRef)}
+      </div>
+    );
+  }
+
+  // Build desktop items
   const desktopItems = [];
   for (let i = 0; i < 4; i++) {
-    desktopItems.push(roundColumn(i, listRefs[i]));
+    const targets = i > 0 ? connectors[i - 1].targetMids : null;
+    desktopItems.push(roundColumn(i, listRefs[i], targets));
     if (i < 3) {
       desktopItems.push(
-        <MeasuredConnector
-          key={`conn-${i}`}
-          rowRef={rowRef}
-          leftListRef={listRefs[i]}
-          rightListRef={listRefs[i + 1]}
-          flipped={false}
-        />
+        <div key={`conn-${i}`}
+          style={{ flexShrink: 0, width: CONN_W, alignSelf: 'stretch', position: 'relative' }}>
+          <ConnectorSVG leftMids={connectors[i].leftMids} targetMids={connectors[i].targetMids} />
+        </div>
       );
     }
   }
 
-  // Mobile split view
-  const nextRound   = Math.min(mobileRound + 1, 3);
-  const showNext    = mobileRound < 3;
-  const mKey        = rounds[mobileRound];
-  const nKey        = rounds[nextRound];
-  const mN          = roundCounts[mobileRound];
-  const nN          = roundCounts[nextRound];
-
-  // Measure the split header height so the connector can offset its y=0 to
-  // match where the game cards actually start (below the header).
-  const headerRef = useRef(null);
-  const [headerH, setHeaderH] = useState(0);
-  useEffect(() => {
-    if (!headerRef.current) return;
-    const ro = new ResizeObserver(() => {
-      setHeaderH(headerRef.current?.offsetHeight ?? 0);
-    });
-    ro.observe(headerRef.current);
-    setHeaderH(headerRef.current.offsetHeight);
-    return () => ro.disconnect();
-  }, []);
-
-  // Next-round cards are absolutely positioned — nextCardOffset no longer needed
+  const nextRound = Math.min(mobileRound + 1, 3);
+  const showNext  = mobileRound < 3;
+  const mKey      = rounds[mobileRound];
+  const nKey      = rounds[nextRound];
 
   return (
     <div className={`region-bracket ${flipped ? 'region-flipped' : ''}`} data-region={regionKey}>
@@ -249,11 +245,9 @@ export default function RegionBracket({
       <div className="mobile-rounds">
         <div className="mobile-round-tabs">
           {ROUND_SHORT.map((label, i) => (
-            <button
-              key={i}
+            <button key={i}
               className={`mobile-round-tab ${mobileRound === i ? 'active' : ''}`}
-              onClick={() => handleTabClick(i)}
-            >
+              onClick={() => handleTabClick(i)}>
               <span className="tab-short">{label}</span>
               <span className="tab-date">{ROUND_DATES[i]}</span>
               <span className="tab-pct">{formatPct(cumulativePct(i))}</span>
@@ -262,15 +256,15 @@ export default function RegionBracket({
         </div>
 
         <div className="mobile-round-panel">
-          <div className="mobile-split-view">
+          <div className="mobile-split-view" ref={mobileRowRef}>
 
-            {/* Current round — fixed-height cards */}
+            {/* Current round — anchor column, no positioning */}
             <div className="mobile-split-col">
-              <div className="mobile-split-header" ref={headerRef}>
+              <div className="mobile-split-header">
                 <span className="mobile-split-label">{ROUND_LABELS[mobileRound]}</span>
                 <span className="mobile-split-pct">{formatPct(cumulativePct(mobileRound))}</span>
               </div>
-              <div className="mobile-game-stack">
+              <div className="mobile-game-stack" ref={mobileLeftRef}>
                 {games[mKey].map((game, gIdx) => (
                   <div key={game.id} className="mobile-game-card">
                     <Matchup
@@ -289,31 +283,38 @@ export default function RegionBracket({
               </div>
             </div>
 
-            {/* Connector + next round */}
             {showNext && <>
-              <MobileConnector leftN={mN} rightN={nN} headerOffset={headerH} />
+              {/* Connector column */}
+              <div style={{ flexShrink: 0, width: CONN_W, alignSelf: 'stretch', position: 'relative' }}>
+                <ConnectorSVG leftMids={mobileConn.leftMids} targetMids={mobileConn.targetMids} />
+              </div>
+
+              {/* Next round — cards positioned at connector target Ys */}
               <div className="mobile-split-col mobile-split-next">
                 <div className="mobile-split-header">
                   <span className="mobile-split-label">{ROUND_LABELS[nextRound]}</span>
                   <span className="mobile-split-pct">{formatPct(cumulativePct(nextRound))}</span>
                 </div>
-                {/* Position each next-round card so its vertical centre
-                    lands exactly where the connector arrives — the midpoint
-                    between its two feeder cards. */}
-                <div className="mobile-next-stack">
+                <div className="mobile-game-stack" ref={mobileRightRef}
+                  style={{ position: 'relative' }}>
                   {games[nKey].map((game, gIdx) => {
-                    const slotH = MOB_CARD_H + MOB_GAP;
-                    const ly1   = gIdx * 2       * slotH + MOB_CARD_H / 2;
-                    const ly2   = (gIdx * 2 + 1) * slotH + MOB_CARD_H / 2;
-                    const connectorY = (ly1 + ly2) / 2;   // where connector arrives
-                    const cardTop    = connectorY - MOB_CARD_H / 2; // top of card
+                    const target = mobileConn.targetMids[gIdx];
+                    let cardStyle;
+                    if (target != null && mobileRowRef.current && mobileRightRef.current) {
+                      const rowTop  = mobileRowRef.current.getBoundingClientRect().top;
+                      const listTop = mobileRightRef.current.getBoundingClientRect().top;
+                      const cardH   = mobileRightRef.current.children[gIdx]?.getBoundingClientRect().height || 80;
+                      cardStyle = {
+                        position: 'absolute',
+                        left: 0, right: 0,
+                        top: target - (listTop - rowTop) - cardH / 2,
+                      };
+                    }
                     return (
-                      <div
-                        key={game.id}
+                      <div key={game.id}
                         className="mobile-game-card mobile-next-game"
-                        style={{ position: 'absolute', top: cardTop + 'px', left: 0, right: 0 }}
-                        onClick={() => handleTabClick(nextRound)}
-                      >
+                        style={cardStyle}
+                        onClick={() => handleTabClick(nextRound)}>
                         <Matchup
                           topTeam={getTopTeam(nKey, gIdx)}
                           bottomTeam={getBottomTeam(nKey, gIdx)}

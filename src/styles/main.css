@@ -512,11 +512,14 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  /* When children are absolutely positioned, the list needs min-height
+     so the column doesn't collapse. Space-around on the column handles
+     vertical centring for later rounds. */
 }
 
-/* Each game item just wraps a Matchup card */
+/* Each game item wraps a Matchup card */
 .round-game-item {
-  /* no flex: 1 here — let the Matchup intrinsic height drive layout */
+  width: 100%;
 }
 .round-game-item .matchup {
   width: 100%;
@@ -1185,11 +1188,9 @@ html, body {
    ========================================= */
 .mobile-split-view {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-start; /* columns size to their own content — no feedback loop */
   gap: 0;
   padding: 0 10px 8px;
-  /* Force fixed team-slot heights inside the split view so card heights
-     are predictable and the JS connector math is exact */
   --team-height: 36px;
 }
 
@@ -1199,6 +1200,7 @@ html, body {
   flex: 1;
   min-width: 0;
 }
+
 
 .mobile-split-header {
   display: flex;
@@ -1231,6 +1233,12 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  /* No flex:1 — height driven by card content only */
+}
+
+/* Next-round stack: cards are absolutely positioned by JS, so no flex spacing needed */
+.mobile-split-next .mobile-game-stack {
+  position: relative;
 }
 
 .mobile-game-card {
@@ -1249,14 +1257,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Container for absolutely-positioned next-round cards.
-   Height = left column game stack height so the column doesn't collapse. */
-.mobile-next-stack {
-  position: relative;
-  /* Height is driven by the tallest absolute child — set explicitly via JS would
-     be complex, so we let overflow: visible handle cards that extend below. */
-}
-
 /* Next round preview */
 .mobile-next-game {
   cursor: pointer;
@@ -1265,9 +1265,10 @@ html, body {
 }
 .mobile-next-game:hover { opacity: 1; }
 
-/* Next round column slightly narrower */
+/* Next round column: narrower + stretches to left column height */
 .mobile-split-next {
   flex: 0.75;
+  align-self: stretch;
 }
 
 /* =========================================
