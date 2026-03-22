@@ -198,6 +198,66 @@ export function useBracket() {
     if (newStatuses) setGameStatuses(newStatuses);
   }, [computeBracket]);
 
+  // Two-pass apply: writes all scores, computes bracket (advancing R1→R2 winners),
+  // then immediately re-matches against the ESPN map to pick up R2+ scores —
+  // all synchronously inside one setData call, no React render cycle between passes.
+  const applyEspnScoresFull = useCallback((pass1Updates, newStatuses, gameMap, matchFn) => {
+    if (newStatuses) statusesRef.current = newStatuses;
+
+    setData((prev) => {
+      // ── Pass 1: write all scores we found ──
+      const next = deepClone(prev);
+
+      function writeUpdates(updates, data) {
+        updates.forEach(({ region, round, gameIdx, topScore, bottomScore }) => {
+          if (region === 'finalFour') {
+            if (topScore !== null) data.games.finalFour[gameIdx].topScore = topScore;
+            if (bottomScore !== null) data.games.finalFour[gameIdx].bottomScore = bottomScore;
+          } else if (region === 'championship') {
+            if (topScore !== null) data.games.championship[0].topScore = topScore;
+            if (bottomScore !== null) data.games.championship[0].bottomScore = bottomScore;
+          } else if (round) {
+            if (topScore !== null) data.games[region][round][gameIdx].topScore = topScore;
+            if (bottomScore !== null) data.games[region][round][gameIdx].bottomScore = bottomScore;
+          }
+        });
+      }
+
+      writeUpdates(pass1Updates, next);
+
+      // ── Compute bracket after pass 1 — R1 winners now advance to R2 ──
+      const comp1 = computeBracket(next, statusesRef.current);
+
+      // ── Pass 2: re-enrich with R2+ espnIds from comp1, re-match ──
+      const enriched = deepClone(comp1);
+      const regions = ['east', 'west', 'south', 'midwest'];
+      regions.forEach((region) => {
+        ['r2', 'r3', 'r4'].forEach((round) => {
+          comp1.games[region][round].forEach((game, idx) => {
+            enriched.games[region][round][idx].topTeamEspnId    = game.topTeam?.espnId ?? null;
+            enriched.games[region][round][idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
+          });
+        });
+      });
+      comp1.games.finalFour.forEach((game, idx) => {
+        enriched.games.finalFour[idx].topTeamEspnId    = game.topTeam?.espnId ?? null;
+        enriched.games.finalFour[idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
+      });
+      const ch = comp1.games.championship[0];
+      enriched.games.championship[0].topTeamEspnId    = ch.topTeam?.espnId ?? null;
+      enriched.games.championship[0].bottomTeamEspnId = ch.bottomTeam?.espnId ?? null;
+
+      const pass2Updates = matchFn(enriched, gameMap);
+      writeUpdates(pass2Updates, next);
+
+      // ── Final compute with all scores applied ──
+      setComputed(computeBracket(next, statusesRef.current));
+      return next;
+    });
+
+    if (newStatuses) setGameStatuses(newStatuses);
+  }, [computeBracket]);
+
   const resetBracket = useCallback(() => {
     const fresh = buildInitialTournament();
     statusesRef.current = {};
@@ -228,5 +288,5 @@ export function useBracket() {
     }
   }, [computeBracket]);
 
-  return { data, computed, updateScore, applyEspnScores, resetBracket, exportJSON, importJSON, gameStatuses };
+  return { data, computed, updateScore, applyEspnScores, applyEspnScoresFull, resetBracket, exportJSON, importJSON, gameStatuses };
 }

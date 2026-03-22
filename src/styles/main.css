@@ -328,15 +328,27 @@ html, body {
 
 .region-rounds {
   display: flex;
-  gap: 4px;
-  align-items: flex-start;
+  gap: 0;
+  align-items: stretch; /* columns stretch to share the same height */
 }
+
+/* Later round game lists distribute games evenly within their column height */
+.round-column {
+  display: flex;
+  flex-direction: column;
+}
+.round-column .round-game-list {
+  flex: 1;
+  justify-content: space-around;
+  gap: 0; /* space-around handles the gaps */
+}
+
 
 /* Mobile rounds hidden by default (desktop shows desktop-rounds) */
 .mobile-rounds { display: none; }
 
 .region-flipped .region-rounds {
-  flex-direction: row-reverse;
+  /* no longer reversed — all regions display left-to-right */
 }
 
 /* =========================================
@@ -464,12 +476,7 @@ html, body {
 /* =========================================
    ROUND COLUMN
    ========================================= */
-.round-column {
-  display: flex;
-  flex-direction: column;
-  min-width: var(--matchup-width);
-  flex: 1;
-}
+
 
 .round-header {
   text-align: center;
@@ -494,51 +501,30 @@ html, body {
 }
 
 /* =========================================
-   ROUND GAME SPACING
+   ROUND GAME LIST
    ========================================= */
-.round-games {
+
+/* Game list: vertical stack with a fixed gap between cards.
+   Later rounds use justify-content to space cards apart so they
+   visually centre against R1. The connector SVG reads the actual
+   rendered midpoints of each card, so it always lines up correctly. */
+.round-game-list {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
-/* Round 0 (R1): 8 games, no spacing */
-.round-0 .game-wrapper {
-  margin-bottom: 4px;
+/* Each game item just wraps a Matchup card */
+.round-game-item {
+  /* no flex: 1 here — let the Matchup intrinsic height drive layout */
+}
+.round-game-item .matchup {
+  width: 100%;
 }
 
-/* Round 1 (R2): 4 games, space to align with 2 R1 games */
-.round-1 .game-wrapper {
-  margin-bottom: 4px;
-}
-
-/* Round 2 (Sweet 16): 2 games */
-.round-2 .game-wrapper {
-  margin-bottom: 4px;
-}
-
-/* Round 3 (Elite 8): 1 game */
-.round-3 .game-wrapper {
-  margin-bottom: 4px;
-}
-
-.game-wrapper {
-  position: relative;
-}
-
-/* =========================================
-   VERTICAL CENTERING ALIGNMENT
-   The bracket uses flex + spacers to center
-   later-round games alongside their R1 pairs.
-   ========================================= */
-.round-1 {
-  justify-content: space-around;
-}
-.round-2 {
-  justify-content: space-around;
-}
-.round-3 {
-  justify-content: center;
-  flex: 1;
+/* Connector column */
+.region-rounds > div[style] {
+  flex-shrink: 0;
 }
 
 /* =========================================
@@ -941,19 +927,7 @@ html, body {
   gap: 8px;
 }
 
-/* =========================================
-   CONNECTOR LINES (bracket connectors)
-   ========================================= */
-/* Visual connector lines between rounds */
-.game-wrapper::after {
-  content: '';
-  position: absolute;
-  right: -4px;
-  top: 50%;
-  width: 4px;
-  height: 1px;
-  background: var(--c-border);
-}
+/* Connector lines defined in ROUND GAME SPACING section above */
 
 /* =========================================
    SCROLLBAR STYLING
@@ -1081,24 +1055,16 @@ html, body {
   }
 
   /* Mobile round panel */
-  .mobile-round-panel { padding: 0 10px 4px; }
+  .mobile-round-panel { padding: 0; }
 
-  .mobile-round-title {
-    font-family: var(--font-head);
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--c-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-  }
-
-  /* Always single column on mobile — two columns are too narrow */
-  .mobile-games-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
+  /* Compact next-round preview column */
+  .mobile-split-next .team-name { font-size: 11px; }
+  .mobile-split-next .owner-name { display: block; font-size: 9px; }
+  .mobile-split-next .score-display { font-size: 12px; min-width: 20px; }
+  .mobile-split-next .seed-badge { font-size: 10px; min-width: 13px; }
+  .mobile-split-next .team-logo,
+  .mobile-split-next .team-logo-fallback { width: 16px; height: 16px; }
+  .mobile-split-next .team-slot { padding: 4px 4px 4px 6px; min-height: 34px; }
 
   .mobile-game-wrapper { width: 100%; }
   .mobile-game-wrapper .matchup { min-width: unset; width: 100%; }
@@ -1154,14 +1120,10 @@ html, body {
     text-align: center;
   }
 
-  /* Status badge — ensure it's visible above the divider line */
-  .matchup-divider {
-    overflow: visible;
-    z-index: 1;
-  }
+  /* Status badge at top of card */
   .game-status-badge {
     font-size: 8px;
-    padding: 1px 4px;
+    padding: 2px 4px;
   }
 
   /* Final Four mobile */
@@ -1216,6 +1178,97 @@ html, body {
 
 /* Winning team score color per region */
 .winner .score-input.score-winner { color: #56d364; }
+
+
+/* =========================================
+   MOBILE SPLIT VIEW
+   ========================================= */
+.mobile-split-view {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 0 10px 8px;
+  /* Force fixed team-slot heights inside the split view so card heights
+     are predictable and the JS connector math is exact */
+  --team-height: 36px;
+}
+
+.mobile-split-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-split-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 4px 8px;
+  border-bottom: 1px solid var(--c-border-light);
+  margin-bottom: 6px;
+}
+
+.mobile-split-label {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mobile-split-pct {
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--c-gold);
+}
+
+/* Fixed-height card stack — no flex stretching, no auto heights */
+.mobile-game-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-game-card {
+  flex-shrink: 0;
+}
+
+.mobile-game-card .matchup {
+  width: 100%;
+  /* Force team slots to fixed height so cards don't grow */
+  --team-height: 36px;
+}
+
+.mobile-game-card .team-slot {
+  height: 36px;
+  min-height: 36px;
+  overflow: hidden;
+}
+
+/* Container for absolutely-positioned next-round cards.
+   Height = left column game stack height so the column doesn't collapse. */
+.mobile-next-stack {
+  position: relative;
+  /* Height is driven by the tallest absolute child — set explicitly via JS would
+     be complex, so we let overflow: visible handle cards that extend below. */
+}
+
+/* Next round preview */
+.mobile-next-game {
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+}
+.mobile-next-game:hover { opacity: 1; }
+
+/* Next round column slightly narrower */
+.mobile-split-next {
+  flex: 0.75;
+}
 
 /* =========================================
    OWNER SUMMARY LEADERBOARD
@@ -1637,28 +1690,21 @@ html, body {
 .matchup-divider {
   height: 1px;
   background: var(--c-border-light);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
 }
 
 .game-status-badge {
-  position: absolute;
   font-family: var(--font-head);
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 1px 5px;
-  border-radius: 3px;
+  padding: 2px 6px;
   white-space: nowrap;
-  z-index: 2;
   display: flex;
   align-items: center;
   gap: 3px;
-  line-height: 1.6;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--c-border-light);
 }
 
 .status-post {

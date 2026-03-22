@@ -13,7 +13,7 @@ import './styles/main.css';
 const AUTO_REFRESH_MS = 60000; // 60 seconds
 
 export default function App() {
-  const { data, computed, updateScore, applyEspnScores, resetBracket, exportJSON, importJSON } = useBracket();
+  const { data, computed, updateScore, applyEspnScores, applyEspnScoresFull, resetBracket, exportJSON, importJSON } = useBracket();
   const { fetchScores, loading, error, lastUpdated, getScoreUpdates, getGameStatus, gameMap } = useEspnScores();
   const [showJsonEditor, setShowJsonEditor] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -27,51 +27,51 @@ export default function App() {
   );
   const totalTeams = Object.values(data.regions).reduce((n, r) => n + r.seeds.length, 0);
 
-  // Keep refs to the latest computed and applyEspnScores so syncScores
-  // never captures a stale closure — important for the auto-refresh interval
+  // Keep refs to the latest values so syncScores never captures a stale closure
   const computedRef = useRef(computed);
-  const applyRef = useRef(applyEspnScores);
+  const applyEspnScoresFull_ref = useRef(applyEspnScoresFull);
   useEffect(() => { computedRef.current = computed; }, [computed]);
-  useEffect(() => { applyRef.current = applyEspnScores; }, [applyEspnScores]);
+  useEffect(() => { applyEspnScoresFull_ref.current = applyEspnScoresFull; }, [applyEspnScoresFull]);
 
-  // Sync scores from ESPN and apply to bracket
+  // Sync scores from ESPN. Uses applyEspnScoresFull which does both passes
+  // (R1 scores → advance teams → R2+ scores) synchronously inside one state update.
   const syncScores = useCallback(async () => {
     const map = await fetchScores();
     if (!map) return;
-
-    const currentComputed = computedRef.current;
-
-    // Build enriched bracket using the current computed state (which has games)
-    // Annotate R2+ slots with the espnIds of teams that have already advanced
-    const enriched = JSON.parse(JSON.stringify(currentComputed));
-    const regions = ['east', 'west', 'south', 'midwest'];
-    regions.forEach((region) => {
-      ['r2', 'r3', 'r4'].forEach((round) => {
-        currentComputed.games[region][round].forEach((game, idx) => {
-          enriched.games[region][round][idx].topTeamEspnId = game.topTeam?.espnId ?? null;
-          enriched.games[region][round][idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
-        });
-      });
-    });
-    currentComputed.games.finalFour.forEach((game, idx) => {
-      enriched.games.finalFour[idx].topTeamEspnId = game.topTeam?.espnId ?? null;
-      enriched.games.finalFour[idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
-    });
-    const ch = currentComputed.games.championship[0];
-    enriched.games.championship[0].topTeamEspnId = ch.topTeam?.espnId ?? null;
-    enriched.games.championship[0].bottomTeamEspnId = ch.bottomTeam?.espnId ?? null;
-
-    const updates = matchEspnScoresToBracket(enriched, map);
 
     const newStatuses = {};
     Object.entries(map).forEach(([key, val]) => {
       newStatuses[key] = val.status;
     });
 
-    applyRef.current(updates, newStatuses);
-  }, [fetchScores]); // fetchScores is stable; computed/apply accessed via refs
+    // Pass 1 match uses current computed (R1 espnIds are always known)
+    const enriched = JSON.parse(JSON.stringify(computedRef.current));
+    const regions = ['east', 'west', 'south', 'midwest'];
+    regions.forEach((region) => {
+      ['r2', 'r3', 'r4'].forEach((round) => {
+        computedRef.current.games[region][round].forEach((game, idx) => {
+          enriched.games[region][round][idx].topTeamEspnId    = game.topTeam?.espnId ?? null;
+          enriched.games[region][round][idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
+        });
+      });
+    });
+    computedRef.current.games.finalFour.forEach((game, idx) => {
+      enriched.games.finalFour[idx].topTeamEspnId    = game.topTeam?.espnId ?? null;
+      enriched.games.finalFour[idx].bottomTeamEspnId = game.bottomTeam?.espnId ?? null;
+    });
+    const ch = computedRef.current.games.championship[0];
+    enriched.games.championship[0].topTeamEspnId    = ch.topTeam?.espnId ?? null;
+    enriched.games.championship[0].bottomTeamEspnId = ch.bottomTeam?.espnId ?? null;
 
-  // Initial fetch on mount — runs exactly once
+    const pass1Updates = matchEspnScoresToBracket(enriched, map);
+
+    // applyEspnScoresFull does pass2 synchronously inside the same state update
+    applyEspnScoresFull_ref.current(pass1Updates, newStatuses, map, matchEspnScoresToBracket);
+  }, [fetchScores]);
+
+  // Initial fetch on mount — runs two passes so that R1 results advance teams
+  // into R2 and R2 scores are immediately applied without needing a manual sync.
+  // Initial fetch on mount
   useEffect(() => {
     syncScores();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

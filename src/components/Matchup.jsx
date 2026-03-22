@@ -98,6 +98,7 @@ export default function Matchup({
 
   return (
     <div className={`matchup ${compact ? 'matchup-compact' : ''}`}>
+      {gameStatus && <GameStatusBadge status={gameStatus} />}
       <TeamSlot
         team={topTeam}
         score={topScore}
@@ -106,9 +107,7 @@ export default function Matchup({
         roundIndex={roundIndex}
         totalPot={totalPot}
       />
-      <div className="matchup-divider">
-        <GameStatusBadge status={gameStatus} />
-      </div>
+      <div className="matchup-divider" />
       <TeamSlot
         team={bottomTeam}
         score={bottomScore}
