@@ -7,6 +7,7 @@ import { useBracket } from './hooks/useBracket';
 import { useEspnScores, matchEspnScoresToBracket } from './hooks/useEspnScores';
 import OwnerSummary from './components/OwnerSummary';
 import TotalPotBanner from './components/TotalPotBanner';
+import { getActiveRoundIndex } from './utils/currentRound';
 import './styles/main.css';
 
 const AUTO_REFRESH_MS = 60000; // 60 seconds
@@ -82,6 +83,14 @@ export default function App() {
     return () => clearInterval(id);
   }, [autoRefresh, syncScores]);
 
+  // Compute the active (first incomplete) round index per region for mobile tab default
+  const activeRound = {
+    east:    getActiveRoundIndex('east',    computed, getGameStatus),
+    west:    getActiveRoundIndex('west',    computed, getGameStatus),
+    south:   getActiveRoundIndex('south',   computed, getGameStatus),
+    midwest: getActiveRoundIndex('midwest', computed, getGameStatus),
+  };
+
   const formatLastUpdated = (date) => {
     if (!date) return null;
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
@@ -152,16 +161,16 @@ export default function App() {
       <div className="bracket-wrapper">
 
         <div className="bracket-row single-region">
-          <RegionBracket region="EAST" regionKey="east" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} />
+          <RegionBracket region="EAST" regionKey="east" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.east} />
         </div>
         <div className="bracket-row single-region">
-          <RegionBracket region="WEST" regionKey="west" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} />
+          <RegionBracket region="WEST" regionKey="west" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.west} />
         </div>
         <div className="bracket-row single-region">
-          <RegionBracket region="SOUTH" regionKey="south" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} />
+          <RegionBracket region="SOUTH" regionKey="south" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.south} />
         </div>
         <div className="bracket-row single-region">
-          <RegionBracket region="MIDWEST" regionKey="midwest" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} />
+          <RegionBracket region="MIDWEST" regionKey="midwest" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.midwest} />
         </div>
       </div>
 

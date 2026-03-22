@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Matchup from './Matchup';
 import { cumulativePct, formatPct, dollarsEarned } from '../utils/payouts';
 
@@ -6,11 +6,25 @@ const ROUND_LABELS = ['1st Round', '2nd Round', 'Sweet 16', 'Elite 8'];
 const ROUND_SHORT  = ['R1', 'R2', 'S16', 'E8'];
 const ROUND_DATES  = ['Mar 19-20', 'Mar 21-22', 'Mar 26-27', 'Mar 28-29'];
 
-export default function RegionBracket({ region, regionKey, computed, updateScore, flipped = false, totalPot = 0, getGameStatus }) {
+export default function RegionBracket({ region, regionKey, computed, updateScore, flipped = false, totalPot = 0, getGameStatus, initialRound = 0 }) {
   const seeds = computed.regions[regionKey].seeds;
   const games = computed.games[regionKey];
   const rounds = ['r1', 'r2', 'r3', 'r4'];
-  const [mobileRound, setMobileRound] = useState(0);
+  const [mobileRound, setMobileRound] = useState(initialRound);
+  const [userSelected, setUserSelected] = useState(false);
+
+  // When ESPN data arrives and initialRound advances, update the tab —
+  // but only if the user hasn't manually picked a tab themselves
+  useEffect(() => {
+    if (!userSelected) {
+      setMobileRound(initialRound);
+    }
+  }, [initialRound, userSelected]);
+
+  function handleTabClick(i) {
+    setUserSelected(true);
+    setMobileRound(i);
+  }
 
   function getTopTeam(round, gameIdx) {
     if (round === 'r1') return seeds[games.r1[gameIdx].top];
@@ -92,7 +106,7 @@ export default function RegionBracket({ region, regionKey, computed, updateScore
               <button
                 key={i}
                 className={`mobile-round-tab ${mobileRound === i ? 'active' : ''}`}
-                onClick={() => setMobileRound(i)}
+                onClick={() => handleTabClick(i)}
               >
                 <span className="tab-short">{label}</span>
                 <span className="tab-date">{ROUND_DATES[i]}</span>

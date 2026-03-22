@@ -117,11 +117,7 @@ export function buildOwnerSummaries(computed, totalPot, getGameStatus) {
           ? `Lost in ${ROUND_NAMES[lostIn[k]]}`
           : rounds > 0
             ? `Won ${ROUND_NAMES[rounds - 1]}`
-            : gameInfo?.gameStatus?.state === 'in'
-              ? 'In Progress'
-              : gameInfo?.gameStatus?.state === 'pre'
-                ? `Up Next · ${gameInfo.gameStatus.display}`
-                : 'Not yet played',
+            : 'Not yet played',
         gameInfo, // { opponent, gameStatus, myScore, oppScore }
       });
 
