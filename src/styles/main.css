@@ -1739,7 +1739,7 @@ html, body {
 
 .status-pre {
   background: var(--c-surface-2);
-  color: var(--c-text-dim);
+  color: var(--c-text-muted);
   border: 1px solid var(--c-border-light);
 }
 

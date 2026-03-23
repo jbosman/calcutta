@@ -5,6 +5,8 @@ import { cumulativePct, formatPct, dollarsEarned } from '../utils/payouts';
 const ROUND_LABELS = ['1st Round', '2nd Round', 'Sweet 16', 'Elite 8'];
 const ROUND_SHORT  = ['R1', 'R2', 'S16', 'E8'];
 const ROUND_DATES  = ['Mar 19-20', 'Mar 21-22', 'Mar 26-27', 'Mar 28-29'];
+// Single-date fallback shown on individual game cards when ESPN time is unavailable
+const ROUND_DATE_FALLBACK = ['Mar 19', 'Mar 21', 'Mar 26', 'Mar 28'];
 const CONN_W = 20;
 
 // Returns Y position of the .matchup-divider inside each child of listEl,
@@ -184,6 +186,7 @@ export default function RegionBracket({
               roundIndex={rIdx}
               totalPot={totalPot}
               gameStatus={getStatus(round, gIdx)}
+              roundDate={ROUND_DATE_FALLBACK[rIdx]}
             />
           </div>
         ))}
@@ -274,6 +277,7 @@ export default function RegionBracket({
                       roundIndex={mobileRound}
                       totalPot={totalPot}
                       gameStatus={getStatus(mKey, gIdx)}
+                      roundDate={ROUND_DATE_FALLBACK[mobileRound]}
                     />
                   </div>
                 ))}
@@ -322,6 +326,7 @@ export default function RegionBracket({
                           roundIndex={nextRound}
                           totalPot={totalPot}
                           gameStatus={getStatus(nKey, gIdx)}
+                          roundDate={ROUND_DATE_FALLBACK[nextRound]}
                         />
                       </div>
                     );

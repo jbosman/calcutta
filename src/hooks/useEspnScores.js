@@ -49,18 +49,31 @@ function parseStatus(competition) {
     return { state: 'in', display: clock ? `${clock} ${periodLabel}` : periodLabel };
   }
 
-  // Pre-game — show scheduled tip time
+  // Pre-game — show scheduled date and tip time
   const dateStr = competition.date;
   if (dateStr) {
     try {
       const d = new Date(dateStr);
-      const time = d.toLocaleTimeString('en-US', {
+      const datePart = d.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        timeZone: 'America/New_York',
+      });
+      // Midnight (00:00 ET) = ESPN placeholder meaning tip time is TBD — show date only
+      const isTBD = d.toLocaleTimeString('en-US', {
+        hour: 'numeric', minute: '2-digit',
+        timeZone: 'America/New_York', hour12: false
+      }) === '00:00';
+      if (isTBD) {
+        return { state: 'pre', display: datePart };
+      }
+      const timePart = d.toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: '2-digit',
-        timeZoneName: 'short',
+        timeZone: 'America/New_York',
         hour12: true,
       });
-      return { state: 'pre', display: time };
+      return { state: 'pre', display: `${datePart} · ${timePart} ET` };
     } catch {
       return { state: 'pre', display: '' };
     }

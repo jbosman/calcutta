@@ -89,16 +89,25 @@ function TeamSlot({ team, score, isWinner, isLoser, isFinal, roundIndex, totalPo
   );
 }
 
-function GameStatusBadge({ status }) {
-  if (!status) return null;
-  const { state, display } = status;
-  if (!display) return null;
-  return (
-    <div className={`game-status-badge status-${state}`}>
-      {state === 'in' && <span className="live-dot" />}
-      {display}
-    </div>
-  );
+function GameStatusBadge({ status, roundDate }) {
+  if (status) {
+    const { state, display } = status;
+    if (!display) return null;
+    return (
+      <div className={`game-status-badge status-${state}`}>
+        {state === 'in' && <span className="live-dot" />}
+        {display}
+      </div>
+    );
+  }
+  if (roundDate) {
+    return (
+      <div className="game-status-badge status-pre">
+        {roundDate}
+      </div>
+    );
+  }
+  return null;
 }
 
 export default function Matchup({
@@ -110,14 +119,17 @@ export default function Matchup({
   totalPot = 0,
   compact = false,
   gameStatus = null,
+  roundDate = null,
 }) {
   const topWins = topScore !== null && bottomScore !== null && topScore > bottomScore;
   const bottomWins = topScore !== null && bottomScore !== null && bottomScore > topScore;
   const isFinal = gameStatus?.state === 'post' || (topWins || bottomWins && !gameStatus);
+  const gameDecided = topWins || bottomWins;
 
   return (
     <div className={`matchup ${compact ? 'matchup-compact' : ''}`}>
-      {gameStatus && <GameStatusBadge status={gameStatus} />}
+      {(gameStatus || (roundDate && !gameDecided)) &&
+        <GameStatusBadge status={gameStatus} roundDate={!gameDecided ? roundDate : null} />}
       <TeamSlot
         team={topTeam}
         score={topScore}
