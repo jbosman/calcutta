@@ -49,41 +49,55 @@ function ConnectorSVG({ leftMids, targetMids }) {
   );
 }
 
-// Manages a connector + its right column.
-// Measures left column card midpoints, computes target Ys for right cards,
-// exposes those targets so right cards can be absolutely positioned to match.
-function useBracketMeasure(rowRef, leftListRef) {
+// Measures left column divider positions and right column divider positions,
+// both relative to rowRef. The connector draws from leftMids with a vertical bar,
+// then across to rightMids (wherever the right cards actually are).
+function useBracketMeasure(rowRef, leftListRef, rightListRef) {
   const [leftMids, setLeftMids] = useState([]);
+  const [rightMids, setRightMids] = useState([]);
 
   const measure = useCallback(() => {
-    const rowEl  = rowRef.current;
-    const leftEl = leftListRef.current;
+    const rowEl   = rowRef.current;
+    const leftEl  = leftListRef.current;
+    const rightEl = rightListRef?.current;
     if (!rowEl || !leftEl) return;
-    const mids = getMidpoints(leftEl, rowEl);
+
+    const lMids = getMidpoints(leftEl, rowEl);
+    const rMids = rightEl ? getMidpoints(rightEl, rowEl) : [];
+
     setLeftMids(prev => {
-      const same = prev.length === mids.length &&
-        prev.every((v, i) => Math.abs(v - mids[i]) < 0.5);
-      return same ? prev : mids;
+      const same = prev.length === lMids.length &&
+        prev.every((v, i) => Math.abs(v - lMids[i]) < 0.5);
+      return same ? prev : lMids;
     });
-  }, [rowRef, leftListRef]);
+    setRightMids(prev => {
+      const same = prev.length === rMids.length &&
+        prev.every((v, i) => Math.abs(v - rMids[i]) < 0.5);
+      return same ? prev : rMids;
+    });
+  }, [rowRef, leftListRef, rightListRef]);
 
   useEffect(() => {
     measure();
     const ro = new ResizeObserver(measure);
     if (rowRef.current)    ro.observe(rowRef.current);
     if (leftListRef.current) ro.observe(leftListRef.current);
+    if (rightListRef?.current) ro.observe(rightListRef.current);
     return () => ro.disconnect();
   }, [measure]);
 
-  // Compute where each right card's centre should be: midpoint between its two feeders
-  const targetMids = [];
-  for (let r = 0; r < leftMids.length / 2; r++) {
-    const ly1 = leftMids[r * 2];
-    const ly2 = leftMids[r * 2 + 1];
-    if (ly1 != null && ly2 != null) targetMids.push((ly1 + ly2) / 2);
-  }
+  // targetMids: where the connector's right arm should land.
+  // If we have actual right measurements, use those.
+  // Otherwise fall back to the geometric midpoint between each pair of left cards.
+  const targetMids = rightMids.length > 0
+    ? rightMids
+    : Array.from({ length: Math.floor(leftMids.length / 2) }, (_, r) => {
+        const ly1 = leftMids[r * 2];
+        const ly2 = leftMids[r * 2 + 1];
+        return (ly1 != null && ly2 != null) ? (ly1 + ly2) / 2 : null;
+      }).filter(v => v != null);
 
-  return { leftMids, targetMids };
+  return { leftMids, rightMids, targetMids };
 }
 
 export default function RegionBracket({
@@ -105,13 +119,16 @@ export default function RegionBracket({
   const mobileRightRef = useRef(null);
 
   // Measure connector data for each inter-round gap (desktop)
-  const conn0 = useBracketMeasure(rowRef, listRefs[0]);
-  const conn1 = useBracketMeasure(rowRef, listRefs[1]);
-  const conn2 = useBracketMeasure(rowRef, listRefs[2]);
+  // Each connector measures both the left column (for arms + bar) and right column (for destination)
+  const conn0 = useBracketMeasure(rowRef, listRefs[0], listRefs[1]);
+  const conn1 = useBracketMeasure(rowRef, listRefs[1], listRefs[2]);
+  const conn2 = useBracketMeasure(rowRef, listRefs[2], listRefs[3]);
   const connectors = [conn0, conn1, conn2];
 
-  // Mobile connector
-  const mobileConn = useBracketMeasure(mobileRowRef, mobileLeftRef);
+  // Mobile connector — only measures left column, computes geometric targets
+  // Do NOT measure the right column (which has absolutely-positioned cards)
+  // as that would create a feedback loop.
+  const mobileConn = useBracketMeasure(mobileRowRef, mobileLeftRef, null);
 
   useEffect(() => {
     if (!userSelected) setMobileRound(initialRound);
@@ -146,80 +163,60 @@ export default function RegionBracket({
     );
   }
 
-  // Render a game list. If targetMids provided, cards are absolutely positioned
-  // so each one's centre aligns with the corresponding target Y (relative to rowRef).
-  function gameList(round, rIdx, listRef, targetMids, rowRefForOffset, extraCardClass, onCardClick) {
-    const positioned = targetMids && targetMids.length > 0 && rowRefForOffset;
+  // Render a game list. For desktop, always normal flow.
+  // targetMids and positioning only used for mobile next-round column.
+  function gameList(round, rIdx, listRef, extraCardClass, onCardClick) {
     return (
-      <div
-        className="round-game-list"
-        ref={listRef}
-        style={positioned ? { position: 'relative' } : undefined}
-      >
-        {games[round].map((game, gIdx) => {
-          let cardStyle;
-          if (positioned && targetMids[gIdx] != null) {
-            // targetMids[gIdx] is relative to rowRef top.
-            // We need it relative to this list's top.
-            const rowEl  = rowRefForOffset.current;
-            const listEl = listRef.current;
-            if (rowEl && listEl) {
-              const listTop = listEl.getBoundingClientRect().top - rowEl.getBoundingClientRect().top;
-              const cardH = listEl.children[gIdx]?.getBoundingClientRect().height || 80;
-              cardStyle = {
-                position: 'absolute',
-                left: 0, right: 0,
-                top: targetMids[gIdx] - listTop - cardH / 2,
-              };
-            }
-          }
-          return (
-            <div
-              key={game.id}
-              className={['round-game-item', extraCardClass].filter(Boolean).join(' ')}
-              style={cardStyle}
-              onClick={onCardClick}
-            >
-              <Matchup
-                topTeam={getTopTeam(round, gIdx)}
-                bottomTeam={getBottomTeam(round, gIdx)}
-                topScore={game.topScore}
-                bottomScore={game.bottomScore}
-                onTopScoreChange={val => updateScore(regionKey, round, gIdx, 'top', val)}
-                onBottomScoreChange={val => updateScore(regionKey, round, gIdx, 'bottom', val)}
-                roundIndex={rIdx}
-                totalPot={totalPot}
-                gameStatus={getStatus(round, gIdx)}
-              />
-            </div>
-          );
-        })}
+      <div className="round-game-list" ref={listRef}>
+        {games[round].map((game, gIdx) => (
+          <div
+            key={game.id}
+            className={['round-game-item', extraCardClass].filter(Boolean).join(' ')}
+            onClick={onCardClick}
+          >
+            <Matchup
+              topTeam={getTopTeam(round, gIdx)}
+              bottomTeam={getBottomTeam(round, gIdx)}
+              topScore={game.topScore}
+              bottomScore={game.bottomScore}
+              onTopScoreChange={val => updateScore(regionKey, round, gIdx, 'top', val)}
+              onBottomScoreChange={val => updateScore(regionKey, round, gIdx, 'bottom', val)}
+              roundIndex={rIdx}
+              totalPot={totalPot}
+              gameStatus={getStatus(round, gIdx)}
+            />
+          </div>
+        ))}
       </div>
     );
   }
 
-  // Desktop round column. R1 (rIdx=0) is the anchor — no positioning needed.
-  // Later rounds use targetMids from the previous round's connector measurement.
-  function roundColumn(rIdx, listRef, targetMids) {
+  // Desktop round column — all rounds use normal flow + space-around.
+  // The connector SVG measures actual .matchup-divider positions so it lines up correctly.
+  function roundColumn(rIdx, listRef) {
     const round = rounds[rIdx];
     return (
       <div key={round} className="round-column">
         {roundHeader(rIdx)}
-        {gameList(round, rIdx, listRef, rIdx > 0 ? targetMids : null, rowRef)}
+        {gameList(round, rIdx, listRef)}
       </div>
     );
   }
 
-  // Build desktop items
+  // Build desktop items — normal flow columns with measured connectors
   const desktopItems = [];
   for (let i = 0; i < 4; i++) {
-    const targets = i > 0 ? connectors[i - 1].targetMids : null;
-    desktopItems.push(roundColumn(i, listRefs[i], targets));
+    desktopItems.push(roundColumn(i, listRefs[i]));
     if (i < 3) {
+      // ConnectorSVG uses leftMids from left column and targetMids (= where right cards are)
+      // from right column measurement. Both are measured after render via ResizeObserver.
       desktopItems.push(
         <div key={`conn-${i}`}
           style={{ flexShrink: 0, width: CONN_W, alignSelf: 'stretch', position: 'relative' }}>
-          <ConnectorSVG leftMids={connectors[i].leftMids} targetMids={connectors[i].targetMids} />
+          <ConnectorSVG
+            leftMids={connectors[i].leftMids}
+            targetMids={connectors[i].targetMids}
+          />
         </div>
       );
     }

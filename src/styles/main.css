@@ -337,10 +337,15 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-.round-column .round-game-list {
+/* R1 (first column): tight pack with gap */
+.round-column:first-child .round-game-list {
+  gap: 6px;
+}
+/* R2, S16, E8: distribute games evenly to align with R1 pairs */
+.round-column:not(:first-child) .round-game-list {
   flex: 1;
   justify-content: space-around;
-  gap: 0; /* space-around handles the gaps */
+  gap: 0;
 }
 
 
