@@ -455,6 +455,16 @@ html, body {
   font-size: 9px;
 }
 
+/* Net value for this round — shown on all team slots */
+.round-net {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin-top: 1px;
+}
+.round-net-pos { color: #56d364; }
+.round-net-neg { color: #f85149; }
+
 .profit-positive {
   color: #56d364;
 }
@@ -563,8 +573,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--team-height);
-  padding: 0 6px 0 8px;
+  min-height: var(--team-height);
+  padding: 3px 6px 3px 8px;
   gap: 4px;
   transition: background 0.12s;
 }
@@ -1085,11 +1095,11 @@ html, body {
     overflow: visible;
   }
 
-  /* Team slot — auto height so owner line never gets cut off */
+  /* Team slot — auto height so three lines of content fit */
   .team-slot {
     height: auto;
-    min-height: 44px;
-    padding: 6px 8px;
+    min-height: 52px;
+    padding: 5px 8px;
     align-items: center;
   }
 
@@ -1258,9 +1268,9 @@ html, body {
 }
 
 .mobile-game-card .team-slot {
-  height: 36px;
   min-height: 36px;
-  overflow: hidden;
+  height: auto;
+  overflow: visible;
 }
 
 /* Next round preview */

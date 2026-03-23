@@ -39,6 +39,11 @@ function TeamSlot({ team, score, isWinner, isLoser, roundIndex, totalPot }) {
     return n < 0 ? `-$${str}` : `+$${str}`;
   };
 
+  // Current round value and net for all non-empty teams
+  const roundValue = !isEmpty && roundIndex !== undefined && roundIndex !== null && totalPot > 0
+    ? dollarsEarned(roundIndex, totalPot) : null;
+  const currentNet = roundValue !== null && price !== null ? roundValue - price : null;
+
   return (
     <div className={`team-slot ${isWinner ? 'winner' : ''} ${isLoser ? 'loser' : ''} ${isEmpty ? 'empty' : ''}`}>
       <div className="team-info">
@@ -51,11 +56,11 @@ function TeamSlot({ team, score, isWinner, isLoser, roundIndex, totalPot }) {
               {ownerName}
               {ownerName && price !== null ? ' · ' : ''}
               {price !== null ? `$${price}` : ''}
-              {net !== null && (
-                <span className={`net-profit ${net >= 0 ? 'profit-positive' : 'profit-negative'}`}>
-                  {' '}({formatNet(net)})
-                </span>
-              )}
+            </span>
+          )}
+          {currentNet !== null && (
+            <span className={`round-net ${currentNet >= 0 ? 'round-net-pos' : 'round-net-neg'}`}>
+              {currentNet >= 0 ? '+' : ''}{currentNet < 0 ? '-' : ''}${Math.abs(currentNet).toLocaleString()}
             </span>
           )}
         </div>
