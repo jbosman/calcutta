@@ -4,16 +4,36 @@ An interactive NCAA March Madness bracket tracker built with React + Vite. Score
 
 ## Features
 
-- **Live ESPN score sync** — fetches scores from ESPN's scoreboard API every 60 seconds, with a manual sync button
-- **Smart advancement** — teams only advance to the next round once a game is officially marked Final by ESPN; in-progress scores are shown but don't advance brackets
-- **All 6 bracket sections** — East, West, South, Midwest, Final Four, Championship, each in its own card
-- **Game status badges** — each matchup shows tip time, live game clock, or Final
-- **Team owners & Calcutta pricing** — each team displays its owner and the price they paid
-- **Round payout display** — each round header shows the cumulative pot percentage and dollar amount a team earns by winning through that round
-- **Owner Leaderboard** — live-updating summary of every owner's teams, winnings, and net position (only updates when games are Final)
-- **Team logos** — loaded from ESPN's CDN using each team's ESPN ID
-- **Mobile-friendly** — per-region round tabs on mobile; single-column game cards; responsive header
-- **Color-coded regions** — East (orange), West (blue), South (green), Midwest (purple)
+**Bracket display**
+- All 6 bracket sections — East, West, South, Midwest, Final Four, Championship, each in its own card
+- Color-coded regions — East (orange), West (blue), South (green), Midwest (purple)
+- SVG bracket connector lines linking each game to the next round, aligned to the divider between the two team slots
+- Desktop: all four rounds displayed side by side with connector lines between them
+- Mobile: current round + next round shown side by side with connector lines, tab bar to switch rounds; auto-advances to the first incomplete round on page load
+
+**Game cards**
+- Team logo, seed, name, owner, and auction price on each team slot
+- Net value shown on every team slot — before a game is decided shows current value (earnings to date minus price paid); after Final updates to reflect winner's actual net and loser's final net
+- Game status badge at the top of each card: scheduled date/time for upcoming games, live clock and score for in-progress games, or Final for completed games. Tip times shown as "Mar 26 · 7:10 PM ET"; games with no confirmed time show just the date
+
+**Live ESPN score sync**
+- Fetches all tournament round dates in parallel (10 requests covering R1 through Championship) so completed games from prior days are always included
+- Two-pass sync on load: first pass applies R1 scores and advances winners, second pass immediately applies R2+ scores — no manual sync needed
+- Auto-refresh every 60 seconds with an ON/OFF toggle; manual Sync Scores button in the header
+- Teams only advance and winnings only accrue once ESPN marks a game as Final
+- Last updated timestamp shown after each successful fetch
+
+**Payout structure**
+- Each round header shows the cumulative pot percentage and dollar value a team earns by winning through that round
+- Net value on each team card updates in real time as games complete
+
+**Owner Leaderboard**
+- Positioned above the bracket for quick reference
+- Shows every owner's teams, auction spend, winnings, and net position
+- Expandable per-owner detail with each team's game status (live score, tip time, or result), round progress dots, and financials
+- Only records wins/losses for officially Final games
+
+**Team logos** — loaded from ESPN's CDN using each team's ESPN ID, with a letter fallback if unavailable
 
 ## Quick Start
 
@@ -31,15 +51,7 @@ npm run build
 npm run preview
 ```
 
-> **Note:** Always use `npm run preview` or a local server to view the production build — opening `dist/index.html` directly in a browser will fail due to CORS restrictions on the `file://` protocol.
-
-## How Scores Work
-
-Scores are fetched automatically from ESPN's unofficial scoreboard API on page load and every 60 seconds thereafter. You can also click **Sync Scores** in the header to fetch immediately.
-
-- **Auto ON/OFF toggle** — disables the 60-second auto-refresh if you want to pause updates
-- **Last updated timestamp** — shown next to the sync button after each successful fetch
-- Teams only advance and winnings only accrue once ESPN marks a game as **Final**. Live in-progress scores are displayed but do not affect bracket advancement or owner standings.
+> **Note:** Always use `npm run preview` or a local server — opening `dist/index.html` directly via `file://` will fail due to CORS restrictions.
 
 ## Payout Structure
 
@@ -52,11 +64,11 @@ Scores are fetched automatically from ESPN's unofficial scoreboard API on page l
 | Final Four | 4% of pot | 12.5% |
 | Championship | 4% of pot | 16.5% |
 
-These percentages are defined in `src/utils/payouts.js` and can be adjusted there.
+Percentages are defined in `src/utils/payouts.js`.
 
 ## Updating Teams & Owners
 
-Edit `src/data/bracket.json` directly. The file contains only team and owner data — no game scores (those come from ESPN at runtime).
+Edit `src/data/bracket.json`. The file contains only team and owner data — game scores come from ESPN at runtime.
 
 ```json
 {
@@ -81,20 +93,18 @@ Edit `src/data/bracket.json` directly. The file contains only team and owner dat
 }
 ```
 
-Each seed entry fields:
-
 | Field | Description |
 |---|---|
 | `seed` | NCAA seed number (1–16) |
 | `team` | Full team name |
-| `abbr` | Short abbreviation displayed in chips |
+| `abbr` | Short abbreviation shown in leaderboard chips |
 | `espnId` | ESPN team ID — used to fetch the logo and match live scores |
 | `owner` | Owner name shown in the bracket and leaderboard |
-| `price` | Amount the owner paid in the Calcutta auction |
+| `price` | Amount the owner paid at the Calcutta auction |
 
-### Seeds Array Order (per region)
+### Seeds array order (per region)
 
-Seeds are stored in the order the NCAA bracket pairs them. The array index determines which R1 matchup a team appears in:
+The array index determines which R1 matchup a team appears in:
 
 | Index | Seed | Index | Seed |
 |-------|------|-------|------|
@@ -113,26 +123,28 @@ Seeds are stored in the order the NCAA bracket pairs them. The array index deter
 project/
 ├── index.html
 ├── package.json
-├── vite.config.js           # base: './' for file:// compatibility
+├── vite.config.js               # base: './' for file:// compatibility
 └── src/
-    ├── main.jsx             # Entry point
-    ├── App.jsx              # Root layout, ESPN sync orchestration
+    ├── main.jsx                 # Entry point
+    ├── App.jsx                  # Root layout, ESPN sync orchestration
     ├── assets/
-    │   └── copa-america-logo.jpg  # Header logo
+    │   └── copa-america-logo.jpg
     ├── data/
-    │   └── bracket.json    # Teams, owners, prices (no game scores)
+    │   └── bracket.json         # Teams, owners, prices (no game scores)
     ├── styles/
-    │   └── main.css        # All styles (desktop + tablet + mobile)
+    │   └── main.css             # All styles (desktop + tablet + mobile)
     ├── hooks/
-    │   ├── useBracket.js   # Bracket state, winner propagation, score application
-    │   └── useEspnScores.js # ESPN API fetching, score parsing, game status
+    │   ├── useBracket.js        # Bracket state, two-pass score application, winner propagation
+    │   └── useEspnScores.js     # ESPN API fetching, multi-date parallel requests, status parsing
     ├── utils/
-    │   ├── payouts.js      # Payout percentages and dollar calculations
-    │   └── ownerSummary.js # Derives per-owner standings from bracket state
+    │   ├── payouts.js           # Payout percentages and dollar calculations
+    │   ├── ownerSummary.js      # Derives per-owner standings from bracket state
+    │   └── currentRound.js      # Computes the first incomplete round per region (for mobile tab default)
     └── components/
-        ├── Matchup.jsx         # Single game card with scores and status badge
-        ├── RegionBracket.jsx   # 4-round region (desktop columns + mobile tabs)
-        ├── FinalFourCenter.jsx # Final Four + Championship section
-        ├── OwnerSummary.jsx    # Owner leaderboard with expandable team detail
-        └── JsonEditor.jsx      # Modal for editing bracket.json in-browser
+        ├── Matchup.jsx          # Game card: logos, scores, status badge, net value
+        ├── RegionBracket.jsx    # 4-round region with SVG connectors (desktop) and split view (mobile)
+        ├── FinalFourCenter.jsx  # Final Four + Championship section
+        ├── TotalPotBanner.jsx   # Total pot, team count, and owner count banner
+        ├── OwnerSummary.jsx     # Owner leaderboard with expandable team detail
+        └── JsonEditor.jsx       # Modal for editing bracket.json in-browser
 ```
