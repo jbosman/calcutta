@@ -21,7 +21,7 @@ function TeamLogo({ espnId, teamName }) {
   );
 }
 
-function TeamSlot({ team, score, isWinner, isLoser, roundIndex, totalPot }) {
+function TeamSlot({ team, score, isWinner, isLoser, isFinal, roundIndex, totalPot }) {
   const isEmpty = !team;
   const seedNum = team?.seed;
   const teamName = team?.team || 'TBD';
@@ -29,20 +29,33 @@ function TeamSlot({ team, score, isWinner, isLoser, roundIndex, totalPot }) {
   const price = team?.price ?? null;
   const espnId = team?.espnId ?? null;
 
-  const showEarnings = isWinner && roundIndex !== undefined && roundIndex !== null && totalPot > 0;
-  const earned = showEarnings ? dollarsEarned(roundIndex, totalPot) : null;
-  const net = showEarnings && price !== null ? earned - price : null;
+  const hasValue = !isEmpty && roundIndex !== undefined && roundIndex !== null && totalPot > 0;
 
-  const formatNet = (n) => {
+  // Earnings already accumulated by reaching this round (won rounds 0..roundIndex-1)
+  const earnedToDate = hasValue && roundIndex > 0 ? dollarsEarned(roundIndex - 1, totalPot) : 0;
+  // Earnings if they win this round
+  const earnedIfWin = hasValue ? dollarsEarned(roundIndex, totalPot) : 0;
+
+  // Net display logic:
+  // - Before final: current value = earnedToDate - price (what they're worth right now)
+  // - After final, winner: earnedIfWin - price
+  // - After final, loser: earnedToDate - price (they stop here)
+  let displayNet = null;
+  if (hasValue && price !== null) {
+    if (!isFinal) {
+      displayNet = earnedToDate - price;
+    } else if (isWinner) {
+      displayNet = earnedIfWin - price;
+    } else {
+      displayNet = earnedToDate - price;
+    }
+  }
+
+  const fmtNet = (n) => {
     const abs = Math.abs(n);
     const str = abs % 1 === 0 ? abs.toLocaleString() : abs.toFixed(2);
-    return n < 0 ? `-$${str}` : `+$${str}`;
+    return (n >= 0 ? '+' : '-') + '$' + str;
   };
-
-  // Current round value and net for all non-empty teams
-  const roundValue = !isEmpty && roundIndex !== undefined && roundIndex !== null && totalPot > 0
-    ? dollarsEarned(roundIndex, totalPot) : null;
-  const currentNet = roundValue !== null && price !== null ? roundValue - price : null;
 
   return (
     <div className={`team-slot ${isWinner ? 'winner' : ''} ${isLoser ? 'loser' : ''} ${isEmpty ? 'empty' : ''}`}>
@@ -58,9 +71,9 @@ function TeamSlot({ team, score, isWinner, isLoser, roundIndex, totalPot }) {
               {price !== null ? `$${price}` : ''}
             </span>
           )}
-          {currentNet !== null && (
-            <span className={`round-net ${currentNet >= 0 ? 'round-net-pos' : 'round-net-neg'}`}>
-              {currentNet >= 0 ? '+' : ''}{currentNet < 0 ? '-' : ''}${Math.abs(currentNet).toLocaleString()}
+          {displayNet !== null && (
+            <span className={`round-net ${displayNet >= 0 ? 'round-net-pos' : 'round-net-neg'}`}>
+              {fmtNet(displayNet)}
             </span>
           )}
         </div>
@@ -100,6 +113,7 @@ export default function Matchup({
 }) {
   const topWins = topScore !== null && bottomScore !== null && topScore > bottomScore;
   const bottomWins = topScore !== null && bottomScore !== null && bottomScore > topScore;
+  const isFinal = gameStatus?.state === 'post' || (topWins || bottomWins && !gameStatus);
 
   return (
     <div className={`matchup ${compact ? 'matchup-compact' : ''}`}>
@@ -109,6 +123,7 @@ export default function Matchup({
         score={topScore}
         isWinner={topWins}
         isLoser={bottomWins}
+        isFinal={isFinal}
         roundIndex={roundIndex}
         totalPot={totalPot}
       />
@@ -118,6 +133,7 @@ export default function Matchup({
         score={bottomScore}
         isWinner={bottomWins}
         isLoser={topWins}
+        isFinal={isFinal}
         roundIndex={roundIndex}
         totalPot={totalPot}
       />
