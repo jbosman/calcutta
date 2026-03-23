@@ -259,7 +259,7 @@ export default function RegionBracket({
             <div className="mobile-split-col">
               <div className="mobile-split-header">
                 <span className="mobile-split-label">{ROUND_LABELS[mobileRound]}</span>
-                <span className="mobile-split-pct">{formatPct(cumulativePct(mobileRound))}</span>
+                <span className="mobile-split-pct">{formatPct(cumulativePct(mobileRound))} = ${dollarsEarned(mobileRound, totalPot).toLocaleString()}</span>
               </div>
               <div className="mobile-game-stack" ref={mobileLeftRef}>
                 {games[mKey].map((game, gIdx) => (
@@ -290,7 +290,7 @@ export default function RegionBracket({
               <div className="mobile-split-col mobile-split-next">
                 <div className="mobile-split-header">
                   <span className="mobile-split-label">{ROUND_LABELS[nextRound]}</span>
-                  <span className="mobile-split-pct">{formatPct(cumulativePct(nextRound))}</span>
+                  <span className="mobile-split-pct">{formatPct(cumulativePct(nextRound))} = ${dollarsEarned(nextRound, totalPot).toLocaleString()}</span>
                 </div>
                 <div className="mobile-game-stack" ref={mobileRightRef}
                   style={{ position: 'relative' }}>
