@@ -74,6 +74,8 @@ export default function App() {
   // Initial fetch on mount
   useEffect(() => {
     syncScores();
+    // Request a re-sync after the first render to make sure all scores are present
+    setTimeout(syncScores, 500);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-refresh interval — syncScores is stable so this never restarts unnecessarily
