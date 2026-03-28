@@ -73,7 +73,9 @@ export default function App() {
   // into R2 and R2 scores are immediately applied without needing a manual sync.
   // Initial fetch on mount
   useEffect(() => {
+    syncScores();
     // Sync scores and put the request on the event queue so it happens last
+    // This second request is necessary to get all games data that is not retreived on the first request
     setTimeout(syncScores, 100 );
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
