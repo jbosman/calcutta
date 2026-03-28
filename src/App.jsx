@@ -73,9 +73,8 @@ export default function App() {
   // into R2 and R2 scores are immediately applied without needing a manual sync.
   // Initial fetch on mount
   useEffect(() => {
-    syncScores();
-    // Request a re-sync after the first render to make sure all scores are present
-    setTimeout(syncScores, 500);
+    // Sync scores and put the request on the event queue so it happens last
+    setTimeout(syncScores, 0);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-refresh interval — syncScores is stable so this never restarts unnecessarily
