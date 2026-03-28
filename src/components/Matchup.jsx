@@ -123,7 +123,7 @@ export default function Matchup({
 }) {
   const topWins = topScore !== null && bottomScore !== null && topScore > bottomScore;
   const bottomWins = topScore !== null && bottomScore !== null && bottomScore > topScore;
-  const isFinal = gameStatus?.state === 'post' || (topWins || bottomWins && !gameStatus);
+  const isFinal = gameStatus?.state === 'post' || (!gameStatus && (topWins || bottomWins));
   const gameDecided = topWins || bottomWins;
 
   return (
