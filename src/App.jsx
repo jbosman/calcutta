@@ -74,7 +74,7 @@ export default function App() {
   // Initial fetch on mount
   useEffect(() => {
     // Sync scores and put the request on the event queue so it happens last
-    setTimeout(syncScores, 0);
+    setTimeout(syncScores, 100 );
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-refresh interval — syncScores is stable so this never restarts unnecessarily
