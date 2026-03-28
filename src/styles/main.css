@@ -1334,52 +1334,68 @@ html, body {
   width: 100%;
 }
 
-.owner-table-head {
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
-  background: var(--c-surface-2);
-  border-bottom: 1px solid var(--c-border-light);
-  gap: 8px;
+.owner-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
 }
 
-.ot-col {
+/* Header */
+.owner-table thead tr {
+  background: var(--c-surface-2);
+  border-bottom: 1px solid var(--c-border-light);
+}
+
+.owner-table thead th {
   font-family: var(--font-head);
   font-size: 11px;
   font-weight: 700;
   color: var(--c-text-muted);
   letter-spacing: 1px;
   text-transform: uppercase;
+  padding: 8px 16px;
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
-.ot-rank   { width: 36px; flex-shrink: 0; text-align: center; }
-.ot-name   { flex: 1.5; min-width: 0; }
-.ot-teams  { flex: 3; min-width: 0; }
-.ot-paid   { width: 70px; flex-shrink: 0; text-align: right; }
-.ot-winnings { width: 80px; flex-shrink: 0; text-align: right; }
-.ot-net    { width: 90px; flex-shrink: 0; text-align: right; }
-.ot-expand { width: 28px; flex-shrink: 0; text-align: center; }
+/* Column widths */
+.ot-rank     { width: 36px; text-align: center; }
+.ot-name     { text-align: left; min-width: 80px; }
+.ot-teams    { text-align: left; }
+.ot-paid     { width: 70px; text-align: right; }
+.ot-winnings { width: 80px; text-align: right; }
+.ot-net      { width: 90px; text-align: right; }
+.ot-expand   { width: 28px; text-align: center; }
 
-/* Owner row */
-.owner-row-group {
+/* Owner tbody / rows */
+.owner-tbody {
   border-bottom: 1px solid var(--c-border-light);
-  transition: background 0.1s;
 }
-.owner-row-group:last-child { border-bottom: none; }
+.owner-tbody:last-child {
+  border-bottom: none;
+}
 
-.owner-row-group.owner-leader .owner-row {
+.owner-tbody.owner-leader .owner-row td {
   background: linear-gradient(90deg, rgba(210,153,34,0.06) 0%, transparent 60%);
 }
 
 .owner-row {
-  display: flex;
-  align-items: center;
-  padding: 10px 16px;
-  gap: 8px;
   cursor: pointer;
   transition: background 0.12s;
 }
-.owner-row:hover { background: var(--c-surface-3); }
+.owner-row:hover td { background: var(--c-surface-3); }
+
+.owner-row td {
+  padding: 10px 16px;
+  vertical-align: middle;
+}
+
+/* Mobile chips row — hidden on desktop, shown on mobile */
+.owner-row-chips-mobile { display: none; }
+.ot-chips-cell {
+  padding: 0 12px 8px;
+  vertical-align: top;
+}
 
 .rank-crown { font-size: 18px; display: block; text-align: center; }
 .rank-num {
@@ -1607,20 +1623,26 @@ html, body {
    OWNER SUMMARY — MOBILE
    ========================================= */
 @media (max-width: 640px) {
-  .owner-table-head { display: none; }
+  /* Hide desktop teams column and financial columns; show mobile chips row instead */
+  .owner-table thead th.ot-teams,
+  .owner-table thead th.ot-paid,
+  .owner-table thead th.ot-winnings { display: none; }
 
-  .owner-row { flex-wrap: wrap; padding: 10px 12px; gap: 6px; }
+  .owner-row td.ot-teams    { display: none; }
+  .owner-row td.ot-paid     { display: none; }
+  .owner-row td.ot-winnings { display: none; }
 
-  .ot-rank   { width: 28px; }
-  .ot-name   { flex: 1; }
-  .ot-teams  { width: 100%; order: 10; }
-  .ot-paid   { display: none; }
-  .ot-winnings { display: none; }
-  .ot-net    { width: auto; }
+  .owner-row td { padding: 10px 12px; }
+  .ot-rank { width: 28px; }
+  .ot-net  { width: auto; }
   .ot-expand { width: 24px; }
 
-  .owner-team-chips { gap: 3px; }
-  .team-chip { font-size: 9px; padding: 2px 4px; }
+  /* Show the dedicated mobile chips row */
+  .owner-row-chips-mobile { display: table-row; cursor: pointer; }
+  .owner-row-chips-mobile:hover td { background: var(--c-surface-3); }
+
+  .owner-team-chips { gap: 4px; align-items: center; flex-wrap: wrap; }
+  .team-chip { font-size: 9px; padding: 2px 5px; }
   .chip-region { display: none; }
 
   .detail-team-row { flex-direction: column; align-items: flex-start; gap: 8px; }
