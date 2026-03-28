@@ -133,8 +133,8 @@ export default function Matchup({
       <TeamSlot
         team={topTeam}
         score={topScore}
-        isWinner={topWins}
-        isLoser={bottomWins}
+        isWinner={isFinal && topWins}
+        isLoser={isFinal && bottomWins}
         isFinal={isFinal}
         roundIndex={roundIndex}
         totalPot={totalPot}
@@ -143,8 +143,8 @@ export default function Matchup({
       <TeamSlot
         team={bottomTeam}
         score={bottomScore}
-        isWinner={bottomWins}
-        isLoser={topWins}
+        isWinner={isFinal && bottomWins}
+        isLoser={isFinal && topWins}
         isFinal={isFinal}
         roundIndex={roundIndex}
         totalPot={totalPot}
