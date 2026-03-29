@@ -37,6 +37,7 @@ export default function App() {
   // (R1 scores → advance teams → R2+ scores) synchronously inside one state update.
   const syncScores = useCallback(async () => {
     const map = await fetchScores();
+    console.log(Object.keys(map).length, map)
     if (!map) return;
 
     const newStatuses = {};
@@ -160,6 +161,8 @@ export default function App() {
 
       <OwnerSummary computed={computed} totalPot={totalPot} getGameStatus={getGameStatus} />
 
+      <FinalFourCenter computed={computed} updateScore={updateScore} totalPot={totalPot} getGameStatus={getGameStatus} />
+
       {/* Bracket Layout */}
       <div className="bracket-wrapper">
 
@@ -176,8 +179,6 @@ export default function App() {
           <RegionBracket region="MIDWEST" regionKey="midwest" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.midwest} />
         </div>
       </div>
-
-      <FinalFourCenter computed={computed} updateScore={updateScore} totalPot={totalPot} getGameStatus={getGameStatus} />
 
       <JsonEditor
         isOpen={showJsonEditor}
