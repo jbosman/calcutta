@@ -77,7 +77,7 @@ export default function App() {
     syncScores();
     // Sync scores and put the request on the event queue so it happens last
     // This second request is necessary to get all games data that is not retreived on the first request
-    setTimeout(syncScores, 100 );
+    setTimeout(syncScores, 500 );
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-refresh interval — syncScores is stable so this never restarts unnecessarily

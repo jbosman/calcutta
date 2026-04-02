@@ -1,0 +1,1422 @@
+{
+    "150-2561": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "150": {
+                "score": 71,
+                "opponentScore": 65
+            },
+            "2561": {
+                "score": 65,
+                "opponentScore": 71
+            }
+        },
+        "espnIds": [
+            "150",
+            "2561"
+        ]
+    },
+    "130-47": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "47": {
+                "score": 80,
+                "opponentScore": 101
+            },
+            "130": {
+                "score": 101,
+                "opponentScore": 80
+            }
+        },
+        "espnIds": [
+            "130",
+            "47"
+        ]
+    },
+    "248-70": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "70": {
+                "score": 47,
+                "opponentScore": 78
+            },
+            "248": {
+                "score": 78,
+                "opponentScore": 47
+            }
+        },
+        "espnIds": [
+            "248",
+            "70"
+        ]
+    },
+    "127-2449": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "127": {
+                "score": 92,
+                "opponentScore": 67
+            },
+            "2449": {
+                "score": 67,
+                "opponentScore": 92
+            }
+        },
+        "espnIds": [
+            "127",
+            "2449"
+        ]
+    },
+    "219-356": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "219": {
+                "score": 70,
+                "opponentScore": 105
+            },
+            "356": {
+                "score": 105,
+                "opponentScore": 70
+            }
+        },
+        "espnIds": [
+            "356",
+            "219"
+        ]
+    },
+    "2250-338": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "338": {
+                "score": 64,
+                "opponentScore": 73
+            },
+            "2250": {
+                "score": 73,
+                "opponentScore": 64
+            }
+        },
+        "espnIds": [
+            "2250",
+            "338"
+        ]
+    },
+    "158-2653": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "158": {
+                "score": 76,
+                "opponentScore": 47
+            },
+            "2653": {
+                "score": 47,
+                "opponentScore": 76
+            }
+        },
+        "espnIds": [
+            "158",
+            "2653"
+        ]
+    },
+    "62-8": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "8": {
+                "score": 97,
+                "opponentScore": 78
+            },
+            "62": {
+                "score": 78,
+                "opponentScore": 97
+            }
+        },
+        "espnIds": [
+            "8",
+            "62"
+        ]
+    },
+    "2272-275": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "275": {
+                "score": 82,
+                "opponentScore": 83
+            },
+            "2272": {
+                "score": 83,
+                "opponentScore": 82
+            }
+        },
+        "espnIds": [
+            "275",
+            "2272"
+        ]
+    },
+    "2377-238": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "238": {
+                "score": 78,
+                "opponentScore": 68
+            },
+            "2377": {
+                "score": 68,
+                "opponentScore": 78
+            }
+        },
+        "espnIds": [
+            "238",
+            "2377"
+        ]
+    },
+    "58-97": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "58": {
+                "score": 79,
+                "opponentScore": 83
+            },
+            "97": {
+                "score": 83,
+                "opponentScore": 79
+            }
+        },
+        "espnIds": [
+            "97",
+            "58"
+        ]
+    },
+    "153-2670": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "153": {
+                "score": 78,
+                "opponentScore": 82
+            },
+            "2670": {
+                "score": 82,
+                "opponentScore": 78
+            }
+        },
+        "espnIds": [
+            "153",
+            "2670"
+        ]
+    },
+    "251-252": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "251": {
+                "score": 79,
+                "opponentScore": 71
+            },
+            "252": {
+                "score": 71,
+                "opponentScore": 79
+            }
+        },
+        "espnIds": [
+            "252",
+            "251"
+        ]
+    },
+    "245-2608": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "245": {
+                "score": 63,
+                "opponentScore": 50
+            },
+            "2608": {
+                "score": 50,
+                "opponentScore": 63
+            }
+        },
+        "espnIds": [
+            "2608",
+            "245"
+        ]
+    },
+    "194-2628": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "194": {
+                "score": 64,
+                "opponentScore": 66
+            },
+            "2628": {
+                "score": 66,
+                "opponentScore": 64
+            }
+        },
+        "espnIds": [
+            "194",
+            "2628"
+        ]
+    },
+    "139-61": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "61": {
+                "score": 77,
+                "opponentScore": 102
+            },
+            "139": {
+                "score": 102,
+                "opponentScore": 77
+            }
+        },
+        "espnIds": [
+            "61",
+            "139"
+        ]
+    },
+    "112358-12": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "12": {
+                "score": 92,
+                "opponentScore": 58
+            },
+            "112358": {
+                "score": 58,
+                "opponentScore": 92
+            }
+        },
+        "espnIds": [
+            "12",
+            "112358"
+        ]
+    },
+    "2504-57": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "57": {
+                "score": 114,
+                "opponentScore": 55
+            },
+            "2504": {
+                "score": 55,
+                "opponentScore": 114
+            }
+        },
+        "espnIds": [
+            "57",
+            "2504"
+        ]
+    },
+    "2634-66": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "66": {
+                "score": 108,
+                "opponentScore": 74
+            },
+            "2634": {
+                "score": 74,
+                "opponentScore": 108
+            }
+        },
+        "espnIds": [
+            "66",
+            "2634"
+        ]
+    },
+    "2509-2511": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2509": {
+                "score": 104,
+                "opponentScore": 71
+            },
+            "2511": {
+                "score": 71,
+                "opponentScore": 104
+            }
+        },
+        "espnIds": [
+            "2509",
+            "2511"
+        ]
+    },
+    "231-41": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "41": {
+                "score": 82,
+                "opponentScore": 71
+            },
+            "231": {
+                "score": 71,
+                "opponentScore": 82
+            }
+        },
+        "espnIds": [
+            "41",
+            "231"
+        ]
+    },
+    "258-2750": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "258": {
+                "score": 82,
+                "opponentScore": 73
+            },
+            "2750": {
+                "score": 73,
+                "opponentScore": 82
+            }
+        },
+        "espnIds": [
+            "258",
+            "2750"
+        ]
+    },
+    "2275-333": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "333": {
+                "score": 90,
+                "opponentScore": 70
+            },
+            "2275": {
+                "score": 70,
+                "opponentScore": 90
+            }
+        },
+        "espnIds": [
+            "333",
+            "2275"
+        ]
+    },
+    "2305-2856": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2305": {
+                "score": 68,
+                "opponentScore": 60
+            },
+            "2856": {
+                "score": 60,
+                "opponentScore": 68
+            }
+        },
+        "espnIds": [
+            "2305",
+            "2856"
+        ]
+    },
+    "2006-2641": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2006": {
+                "score": 71,
+                "opponentScore": 91
+            },
+            "2641": {
+                "score": 91,
+                "opponentScore": 71
+            }
+        },
+        "espnIds": [
+            "2641",
+            "2006"
+        ]
+    },
+    "2460-2599": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2460": {
+                "score": 53,
+                "opponentScore": 79
+            },
+            "2599": {
+                "score": 79,
+                "opponentScore": 53
+            }
+        },
+        "espnIds": [
+            "2599",
+            "2460"
+        ]
+    },
+    "193-2633": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "193": {
+                "score": 56,
+                "opponentScore": 78
+            },
+            "2633": {
+                "score": 78,
+                "opponentScore": 56
+            }
+        },
+        "espnIds": [
+            "2633",
+            "193"
+        ]
+    },
+    "2541-96": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "96": {
+                "score": 89,
+                "opponentScore": 84
+            },
+            "2541": {
+                "score": 84,
+                "opponentScore": 89
+            }
+        },
+        "espnIds": [
+            "96",
+            "2541"
+        ]
+    },
+    "2116-26": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "26": {
+                "score": 75,
+                "opponentScore": 71
+            },
+            "2116": {
+                "score": 71,
+                "opponentScore": 75
+            }
+        },
+        "espnIds": [
+            "26",
+            "2116"
+        ]
+    },
+    "142-2390": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "142": {
+                "score": 66,
+                "opponentScore": 80
+            },
+            "2390": {
+                "score": 80,
+                "opponentScore": 66
+            }
+        },
+        "espnIds": [
+            "2390",
+            "142"
+        ]
+    },
+    "222-328": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "222": {
+                "score": 76,
+                "opponentScore": 86
+            },
+            "328": {
+                "score": 86,
+                "opponentScore": 76
+            }
+        },
+        "espnIds": [
+            "222",
+            "328"
+        ]
+    },
+    "228-2294": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "228": {
+                "score": 61,
+                "opponentScore": 67
+            },
+            "2294": {
+                "score": 67,
+                "opponentScore": 61
+            }
+        },
+        "espnIds": [
+            "228",
+            "2294"
+        ]
+    },
+    "130-139": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "130": {
+                "score": 95,
+                "opponentScore": 72
+            },
+            "139": {
+                "score": 72,
+                "opponentScore": 95
+            }
+        },
+        "espnIds": [
+            "130",
+            "139"
+        ]
+    },
+    "150-2628": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "150": {
+                "score": 81,
+                "opponentScore": 58
+            },
+            "2628": {
+                "score": 58,
+                "opponentScore": 81
+            }
+        },
+        "espnIds": [
+            "150",
+            "2628"
+        ]
+    },
+    "245-248": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "245": {
+                "score": 57,
+                "opponentScore": 88
+            },
+            "248": {
+                "score": 88,
+                "opponentScore": 57
+            }
+        },
+        "espnIds": [
+            "248",
+            "245"
+        ]
+    },
+    "127-97": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "97": {
+                "score": 69,
+                "opponentScore": 77
+            },
+            "127": {
+                "score": 77,
+                "opponentScore": 69
+            }
+        },
+        "espnIds": [
+            "127",
+            "97"
+        ]
+    },
+    "2250-251": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "251": {
+                "score": 74,
+                "opponentScore": 68
+            },
+            "2250": {
+                "score": 68,
+                "opponentScore": 74
+            }
+        },
+        "espnIds": [
+            "2250",
+            "251"
+        ]
+    },
+    "2670-356": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "356": {
+                "score": 76,
+                "opponentScore": 55
+            },
+            "2670": {
+                "score": 55,
+                "opponentScore": 76
+            }
+        },
+        "espnIds": [
+            "356",
+            "2670"
+        ]
+    },
+    "158-238": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "158": {
+                "score": 74,
+                "opponentScore": 72
+            },
+            "238": {
+                "score": 72,
+                "opponentScore": 74
+            }
+        },
+        "espnIds": [
+            "158",
+            "238"
+        ]
+    },
+    "2272-8": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "8": {
+                "score": 94,
+                "opponentScore": 88
+            },
+            "2272": {
+                "score": 88,
+                "opponentScore": 94
+            }
+        },
+        "espnIds": [
+            "8",
+            "2272"
+        ]
+    },
+    "2168-350": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "350": {
+                "score": 61,
+                "opponentScore": 80
+            },
+            "2168": {
+                "score": 80,
+                "opponentScore": 61
+            }
+        },
+        "espnIds": [
+            "350",
+            "2168"
+        ]
+    },
+    "2335-2440": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2335": {
+                "score": 63,
+                "opponentScore": 73
+            },
+            "2440": {
+                "score": 73,
+                "opponentScore": 63
+            }
+        },
+        "espnIds": [
+            "2440",
+            "2335"
+        ]
+    },
+    "2294-57": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "57": {
+                "score": 72,
+                "opponentScore": 73
+            },
+            "2294": {
+                "score": 73,
+                "opponentScore": 72
+            }
+        },
+        "espnIds": [
+            "57",
+            "2294"
+        ]
+    },
+    "12-328": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "12": {
+                "score": 78,
+                "opponentScore": 66
+            },
+            "328": {
+                "score": 66,
+                "opponentScore": 78
+            }
+        },
+        "espnIds": [
+            "12",
+            "328"
+        ]
+    },
+    "2390-2509": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2390": {
+                "score": 69,
+                "opponentScore": 79
+            },
+            "2509": {
+                "score": 79,
+                "opponentScore": 69
+            }
+        },
+        "espnIds": [
+            "2509",
+            "2390"
+        ]
+    },
+    "66-96": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "66": {
+                "score": 82,
+                "opponentScore": 63
+            },
+            "96": {
+                "score": 63,
+                "opponentScore": 82
+            }
+        },
+        "espnIds": [
+            "66",
+            "96"
+        ]
+    },
+    "26-41": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "26": {
+                "score": 57,
+                "opponentScore": 73
+            },
+            "41": {
+                "score": 73,
+                "opponentScore": 57
+            }
+        },
+        "espnIds": [
+            "41",
+            "26"
+        ]
+    },
+    "258-2633": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "258": {
+                "score": 72,
+                "opponentScore": 79
+            },
+            "2633": {
+                "score": 79,
+                "opponentScore": 72
+            }
+        },
+        "espnIds": [
+            "258",
+            "2633"
+        ]
+    },
+    "2305-2599": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2305": {
+                "score": 65,
+                "opponentScore": 67
+            },
+            "2599": {
+                "score": 67,
+                "opponentScore": 65
+            }
+        },
+        "espnIds": [
+            "2305",
+            "2599"
+        ]
+    },
+    "2641-333": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "333": {
+                "score": 90,
+                "opponentScore": 65
+            },
+            "2641": {
+                "score": 65,
+                "opponentScore": 90
+            }
+        },
+        "espnIds": [
+            "333",
+            "2641"
+        ]
+    },
+    "154-2287": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "154": {
+                "score": 75,
+                "opponentScore": 78
+            },
+            "2287": {
+                "score": 78,
+                "opponentScore": 75
+            }
+        },
+        "espnIds": [
+            "154",
+            "2287"
+        ]
+    },
+    "2-2547": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "2": {
+                "score": 91,
+                "opponentScore": 85
+            },
+            "2547": {
+                "score": 85,
+                "opponentScore": 91
+            }
+        },
+        "espnIds": [
+            "2",
+            "2547"
+        ]
+    },
+    "202-2439": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "202": {
+                "score": 77,
+                "opponentScore": 66
+            },
+            "2439": {
+                "score": 66,
+                "opponentScore": 77
+            }
+        },
+        "espnIds": [
+            "202",
+            "2439"
+        ]
+    },
+    "167-45": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "45": {
+                "score": 61,
+                "opponentScore": 86
+            },
+            "167": {
+                "score": 86,
+                "opponentScore": 61
+            }
+        },
+        "espnIds": [
+            "167",
+            "45"
+        ]
+    },
+    "197-2724": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "197": {
+                "score": 70,
+                "opponentScore": 96
+            },
+            "2724": {
+                "score": 96,
+                "opponentScore": 70
+            }
+        },
+        "espnIds": [
+            "197",
+            "2724"
+        ]
+    },
+    "25-2603": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "25": {
+                "score": 75,
+                "opponentScore": 76
+            },
+            "2603": {
+                "score": 76,
+                "opponentScore": 75
+            }
+        },
+        "espnIds": [
+            "25",
+            "2603"
+        ]
+    },
+    "12-8": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "8": {
+                "score": 88,
+                "opponentScore": 109
+            },
+            "12": {
+                "score": 109,
+                "opponentScore": 88
+            }
+        },
+        "espnIds": [
+            "12",
+            "8"
+        ]
+    },
+    "2509-251": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "251": {
+                "score": 77,
+                "opponentScore": 79
+            },
+            "2509": {
+                "score": 79,
+                "opponentScore": 77
+            }
+        },
+        "espnIds": [
+            "2509",
+            "251"
+        ]
+    },
+    "248-356": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "248": {
+                "score": 55,
+                "opponentScore": 65
+            },
+            "356": {
+                "score": 65,
+                "opponentScore": 55
+            }
+        },
+        "espnIds": [
+            "248",
+            "356"
+        ]
+    },
+    "158-2294": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "158": {
+                "score": 71,
+                "opponentScore": 77
+            },
+            "2294": {
+                "score": 77,
+                "opponentScore": 71
+            }
+        },
+        "espnIds": [
+            "158",
+            "2294"
+        ]
+    },
+    "150-2599": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "150": {
+                "score": 80,
+                "opponentScore": 75
+            },
+            "2599": {
+                "score": 75,
+                "opponentScore": 80
+            }
+        },
+        "espnIds": [
+            "150",
+            "2599"
+        ]
+    },
+    "130-333": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "130": {
+                "score": 90,
+                "opponentScore": 77
+            },
+            "333": {
+                "score": 77,
+                "opponentScore": 90
+            }
+        },
+        "espnIds": [
+            "130",
+            "333"
+        ]
+    },
+    "127-41": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "41": {
+                "score": 67,
+                "opponentScore": 63
+            },
+            "127": {
+                "score": 63,
+                "opponentScore": 67
+            }
+        },
+        "espnIds": [
+            "41",
+            "127"
+        ]
+    },
+    "2633-66": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "66": {
+                "score": 62,
+                "opponentScore": 76
+            },
+            "2633": {
+                "score": 76,
+                "opponentScore": 62
+            }
+        },
+        "espnIds": [
+            "66",
+            "2633"
+        ]
+    },
+    "12-2509": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "12": {
+                "score": 79,
+                "opponentScore": 64
+            },
+            "2509": {
+                "score": 64,
+                "opponentScore": 79
+            }
+        },
+        "espnIds": [
+            "12",
+            "2509"
+        ]
+    },
+    "2294-356": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "356": {
+                "score": 71,
+                "opponentScore": 59
+            },
+            "2294": {
+                "score": 59,
+                "opponentScore": 71
+            }
+        },
+        "espnIds": [
+            "356",
+            "2294"
+        ]
+    },
+    "130-2633": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "130": {
+                "score": 95,
+                "opponentScore": 62
+            },
+            "2633": {
+                "score": 62,
+                "opponentScore": 95
+            }
+        },
+        "espnIds": [
+            "130",
+            "2633"
+        ]
+    },
+    "150-41": {
+        "status": {
+            "state": "post",
+            "display": "Final"
+        },
+        "teams": {
+            "41": {
+                "score": 73,
+                "opponentScore": 72
+            },
+            "150": {
+                "score": 72,
+                "opponentScore": 73
+            }
+        },
+        "espnIds": [
+            "150",
+            "41"
+        ]
+    },
+    "-1--2": {
+        "status": {
+            "state": "pre",
+            "display": "Apr 6"
+        },
+        "teams": {
+            "-1": {
+                "score": 0,
+                "opponentScore": 0
+            },
+            "-2": {
+                "score": 0,
+                "opponentScore": 0
+            }
+        },
+        "espnIds": [
+            "-1",
+            "-2"
+        ]
+    },
+    "356-41": {
+        "status": {
+            "state": "pre",
+            "display": "Apr 4 · 6:09 PM ET"
+        },
+        "teams": {
+            "41": {
+                "score": 0,
+                "opponentScore": 0
+            },
+            "356": {
+                "score": 0,
+                "opponentScore": 0
+            }
+        },
+        "espnIds": [
+            "41",
+            "356"
+        ]
+    },
+    "12-130": {
+        "status": {
+            "state": "pre",
+            "display": "Apr 4 · 8:49 PM ET"
+        },
+        "teams": {
+            "12": {
+                "score": 0,
+                "opponentScore": 0
+            },
+            "130": {
+                "score": 0,
+                "opponentScore": 0
+            }
+        },
+        "espnIds": [
+            "12",
+            "130"
+        ]
+    }
+}

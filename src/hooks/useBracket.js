@@ -87,6 +87,8 @@ export function useBracket() {
   const [gameStatuses, setGameStatuses] = useState({});
   const statusesRef = useRef({});
 
+  console.log('yoyo: ', data)
+
   const computeBracket = useCallback((tournament, statuses) => {
     const st = statuses ?? statusesRef.current;
     const regions = ['east', 'west', 'south', 'midwest'];

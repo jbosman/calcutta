@@ -1,0 +1,425 @@
+{
+    "east": {
+        "r1": [
+            {
+                "id": "e-r1-g1",
+                "top": 0,
+                "bottom": 1,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r1-g2",
+                "top": 2,
+                "bottom": 3,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r1-g3",
+                "top": 4,
+                "bottom": 5,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r1-g4",
+                "top": 6,
+                "bottom": 7,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r1-g5",
+                "top": 8,
+                "bottom": 9,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r1-g6",
+                "top": 10,
+                "bottom": 11,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r1-g7",
+                "top": 12,
+                "bottom": 13,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r1-g8",
+                "top": 14,
+                "bottom": 15,
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r2": [
+            {
+                "id": "e-r2-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r2-g2",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r2-g3",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r2-g4",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r3": [
+            {
+                "id": "e-r3-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "e-r3-g2",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r4": [
+            {
+                "id": "e-r4-g1",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ]
+    },
+    "west": {
+        "r1": [
+            {
+                "id": "w-r1-g1",
+                "top": 0,
+                "bottom": 1,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r1-g2",
+                "top": 2,
+                "bottom": 3,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r1-g3",
+                "top": 4,
+                "bottom": 5,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r1-g4",
+                "top": 6,
+                "bottom": 7,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r1-g5",
+                "top": 8,
+                "bottom": 9,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r1-g6",
+                "top": 10,
+                "bottom": 11,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r1-g7",
+                "top": 12,
+                "bottom": 13,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r1-g8",
+                "top": 14,
+                "bottom": 15,
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r2": [
+            {
+                "id": "w-r2-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r2-g2",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r2-g3",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r2-g4",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r3": [
+            {
+                "id": "w-r3-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "w-r3-g2",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r4": [
+            {
+                "id": "w-r4-g1",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ]
+    },
+    "south": {
+        "r1": [
+            {
+                "id": "s-r1-g1",
+                "top": 0,
+                "bottom": 1,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r1-g2",
+                "top": 2,
+                "bottom": 3,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r1-g3",
+                "top": 4,
+                "bottom": 5,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r1-g4",
+                "top": 6,
+                "bottom": 7,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r1-g5",
+                "top": 8,
+                "bottom": 9,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r1-g6",
+                "top": 10,
+                "bottom": 11,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r1-g7",
+                "top": 12,
+                "bottom": 13,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r1-g8",
+                "top": 14,
+                "bottom": 15,
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r2": [
+            {
+                "id": "s-r2-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r2-g2",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r2-g3",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r2-g4",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r3": [
+            {
+                "id": "s-r3-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "s-r3-g2",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r4": [
+            {
+                "id": "s-r4-g1",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ]
+    },
+    "midwest": {
+        "r1": [
+            {
+                "id": "m-r1-g1",
+                "top": 0,
+                "bottom": 1,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r1-g2",
+                "top": 2,
+                "bottom": 3,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r1-g3",
+                "top": 4,
+                "bottom": 5,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r1-g4",
+                "top": 6,
+                "bottom": 7,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r1-g5",
+                "top": 8,
+                "bottom": 9,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r1-g6",
+                "top": 10,
+                "bottom": 11,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r1-g7",
+                "top": 12,
+                "bottom": 13,
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r1-g8",
+                "top": 14,
+                "bottom": 15,
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r2": [
+            {
+                "id": "m-r2-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r2-g2",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r2-g3",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r2-g4",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r3": [
+            {
+                "id": "m-r3-g1",
+                "topScore": null,
+                "bottomScore": null
+            },
+            {
+                "id": "m-r3-g2",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ],
+        "r4": [
+            {
+                "id": "m-r4-g1",
+                "topScore": null,
+                "bottomScore": null
+            }
+        ]
+    },
+    "finalFour": [
+        {
+            "id": "ff-g1",
+            "topScore": null,
+            "bottomScore": null
+        },
+        {
+            "id": "ff-g2",
+            "topScore": null,
+            "bottomScore": null
+        }
+    ],
+    "championship": [
+        {
+            "id": "ch-g1",
+            "topScore": null,
+            "bottomScore": null
+        }
+    ]
+}

@@ -229,6 +229,7 @@ export function useEspnScores() {
     setError(null);
     try {
       const json = await fetchAllTournamentGames();
+      console.log('fetched: ', json);
       const parsed = parseScoreboardData(json);
       setGameMap(parsed);
       setLastUpdated(new Date());
@@ -238,6 +239,8 @@ export function useEspnScores() {
         statuses[key] = val.status;
       });
       setGameStatuses(statuses);
+
+      console.log('fetchedScores: ', parsed );
 
       return parsed;
     } catch (err) {
