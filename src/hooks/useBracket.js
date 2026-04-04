@@ -136,7 +136,7 @@ export function useBracket() {
 
     // Elite 8 → Final Four
     const ffGames = result.games.finalFour;
-    ['east', 'west', 'south', 'midwest'].forEach((region, idx) => {
+    ['east', 'south','west', 'midwest'].forEach((region, idx) => {
       const r4 = result.games[region].r4[0];
       const w = getFinalWinner(r4.topTeam, r4.bottomTeam, r4.topScore, r4.bottomScore, st);
       const winner = w !== null ? (w === 0 ? r4.topTeam : r4.bottomTeam) : null;

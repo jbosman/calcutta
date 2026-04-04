@@ -170,10 +170,10 @@ export default function App() {
           <RegionBracket region="EAST" regionKey="east" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.east} />
         </div>
         <div className="bracket-row single-region">
-          <RegionBracket region="WEST" regionKey="west" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.west} />
+          <RegionBracket region="SOUTH" regionKey="south" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.south} />
         </div>
         <div className="bracket-row single-region">
-          <RegionBracket region="SOUTH" regionKey="south" computed={computed} updateScore={updateScore} flipped={false} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.south} />
+          <RegionBracket region="WEST" regionKey="west" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.west} />
         </div>
         <div className="bracket-row single-region">
           <RegionBracket region="MIDWEST" regionKey="midwest" computed={computed} updateScore={updateScore} flipped={true} totalPot={totalPot} getGameStatus={getGameStatus} initialRound={activeRound.midwest} />
